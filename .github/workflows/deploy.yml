@@ -1,5 +1,5 @@
 # Tests the game, then publishes it to GitHub Pages.
-# One-time setup: repo Settings → Pages → Source: "GitHub Actions".
+# If Pages isn't switched on yet: repo Settings → Pages → Source: "GitHub Actions".
 name: Deploy to GitHub Pages
 
 on:
@@ -26,16 +26,14 @@ jobs:
           node-version: 22
       - name: Logic tests (every dig solvable, skeletons, saves, account codes)
         run: npm test
-      - name: Browser test (plays the whole game in Chromium)
-        run: |
-          npm install --no-save playwright@1.48.2
-          npx playwright install --with-deps chromium
-          npm run e2e
       - name: Collect the site (static files only)
         run: |
           mkdir _site
           cp -r index.html css js data fonts _site/
           touch _site/.nojekyll
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
@@ -49,3 +47,16 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # Plays the whole game in headless Chromium. Runs alongside the deploy
+  # (it doesn't hold it up) so a slow CI browser can't block a release.
+  browser-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.48.2
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
