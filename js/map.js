@@ -32,100 +32,137 @@ function blob(cx, cy, rx, ry, rng, n = 14) {
   return wobble(pts, rng, 4);
 }
 
+function contours(cx, cy, rx, ry, rng, rings, color) {
+  const out = [];
+  for (let k = rings; k >= 1; k--) {
+    const f = k / rings;
+    out.push(`<path d="${blob(cx + (rng() - 0.5) * 6, cy + (rng() - 0.5) * 6, rx * f, ry * f, rng, 18)}" fill="${k === 1 ? color : 'none'}" fill-opacity="${k === 1 ? 0.35 : 0}" stroke="#7a5a36" stroke-opacity="${0.35 + 0.1 * (rings - k) / rings}" stroke-width="${k % 3 === 0 ? 1.2 : 0.7}"/>`);
+  }
+  return out.join('');
+}
+
 function regionArt(id, cx, cy, rng) {
   const s = [];
+  const ink = 'stroke="#3a2a1a" stroke-width="1" stroke-opacity=".75" fill="none"';
   if (id === 'desert') {
-    for (const [dx, dy, w, h] of [[-70, 10, 60, 34], [10, -12, 70, 44], [60, 26, 44, 24]]) {
-      s.push(`<path d="${wobble([[cx + dx, cy + dy], [cx + dx + 8, cy + dy - h], [cx + dx + w - 8, cy + dy - h], [cx + dx + w, cy + dy]], rng, 2, false)}" fill="#e2c48a" stroke="${INK}" stroke-width="2.4"/>`);
-      s.push(`<path d="M${cx + dx + 10} ${cy + dy - h * 0.5}h${w - 20}" stroke="${INK}" stroke-width="1.2" opacity=".5"/>`);
+    s.push(contours(cx, cy, 120, 62, rng, 5, '#d9b277'));
+    // stipple for sand
+    for (let i = 0; i < 90; i++) s.push(`<circle cx="${(cx + (rng() - 0.5) * 220).toFixed(1)}" cy="${(cy + (rng() - 0.5) * 100).toFixed(1)}" r="${(0.6 + rng() * 0.8).toFixed(1)}" fill="#7a5a36" opacity=".45"/>`);
+    // mesas drawn with hachures
+    for (const [dx, dy, w] of [[-60, -6, 46], [20, 10, 52]]) {
+      s.push(`<path d="M${cx + dx} ${cy + dy}h${w}" ${ink} stroke-width="1.4"/>`);
+      for (let k = 0; k <= w; k += 4) s.push(`<path d="M${cx + dx + k} ${cy + dy}l${(k - w / 2) / 6} 9" ${ink} stroke-width=".6"/>`);
     }
-    s.push(`<path d="M${cx - 10} ${cy + 30}v-26M${cx - 10} ${cy + 14}h-8v-8M${cx - 10} ${cy + 10}h7v-9" fill="none" stroke="#55572b" stroke-width="3" stroke-linecap="round"/>`);
   } else if (id === 'sea') {
-    s.push(`<path d="${wobble([[cx - 90, cy - 10], [cx - 40, cy - 30], [cx + 10, cy - 24], [cx + 60, cy - 36], [cx + 60, cy - 6], [cx - 90, cy + 6]], rng, 3)}" fill="#ebe4d0" stroke="${INK}" stroke-width="2.4"/>`);
-    for (let k = 0; k < 4; k++) s.push(`<path d="M${cx - 80 + k * 40} ${cy + 26} q10 -8 20 0 t20 0" fill="none" stroke="#3b5f7a" stroke-width="2.2" stroke-linecap="round"/>`);
-    s.push(`<path d="M${cx + 76} ${cy - 4}l4 -40h10l4 40z" fill="#f2e8cf" stroke="${INK}" stroke-width="2.2"/><rect x="${cx + 79}" y="${cy - 52}" width="12" height="9" fill="#c25a1c" stroke="${INK}" stroke-width="2"/>`);
+    s.push(contours(cx, cy - 10, 110, 46, rng, 4, '#e6e0cc'));
+    // chalk cliff edge with hachures facing the sea
+    s.push(`<path d="${wobble([[cx - 100, cy + 4], [cx - 40, cy - 6], [cx + 20, cy + 2], [cx + 100, cy - 10]], rng, 3, false)}" ${ink} stroke-width="1.5"/>`);
+    for (let k = -96; k < 100; k += 5) s.push(`<path d="M${cx + k} ${cy + 2 - k * 0.06}l1 7" ${ink} stroke-width=".6"/>`);
   } else if (id === 'jungle') {
-    s.push(`<path d="${wobble([[cx - 110, cy + 40], [cx - 50, cy + 14], [cx, cy + 30], [cx + 50, cy + 6], [cx + 110, cy + 20]], rng, 6, false)}" fill="none" stroke="#5d7d8a" stroke-width="10" stroke-linecap="round" opacity=".7"/>`);
-    for (const [dx, dy] of [[-70, -20], [-30, -36], [20, -24], [64, -30], [-50, 52], [40, 50]]) {
-      s.push(`<path d="M${cx + dx} ${cy + dy + 20}v-16" stroke="${INK}" stroke-width="2.2"/><path d="${blob(cx + dx, cy + dy - 6, 16, 12, rng, 9)}" fill="#8a8a52" stroke="${INK}" stroke-width="2"/>`);
+    s.push(contours(cx, cy, 120, 58, rng, 4, '#a7ad74'));
+    // tree symbols: little scalloped circles
+    for (let i = 0; i < 26; i++) {
+      const x = cx + (rng() - 0.5) * 210, y = cy + (rng() - 0.5) * 90, r = 4 + rng() * 3;
+      s.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="#6f7a45" fill-opacity=".35" stroke="#3a2a1a" stroke-width=".7" stroke-opacity=".7"/>`);
     }
   } else if (id === 'tundra') {
-    s.push(`<path d="${wobble([[cx - 110, cy + 30], [cx - 60, cy - 30], [cx - 30, cy + 4], [cx + 10, cy - 46], [cx + 60, cy + 10], [cx + 90, cy - 20], [cx + 120, cy + 30]], rng, 3, false)}" fill="#eef0ea" stroke="${INK}" stroke-width="2.4"/>`);
-    s.push(`<path d="M${cx - 6} ${cy - 30}l16 -16 16 18M${cx - 72} ${cy - 18}l12 -12 12 14" fill="none" stroke="${INK}" stroke-width="1.6"/>`);
-    for (const [dx, dy] of [[-90, -40], [70, -44], [100, 10]]) s.push(`<path d="M${cx + dx - 7} ${cy + dy}h14M${cx + dx - 4} ${cy + dy - 6}l8 12M${cx + dx + 4} ${cy + dy - 6}l-8 12" stroke="#5d7d8a" stroke-width="2" stroke-linecap="round"/>`);
-  } else if (id === 'volcano') {
-    for (const [dx, w, h] of [[-50, 90, 60], [40, 70, 42]]) {
-      s.push(`<path d="${wobble([[cx + dx - w / 2, cy + 30], [cx + dx - 10, cy + 30 - h], [cx + dx + 10, cy + 30 - h], [cx + dx + w / 2, cy + 30]], rng, 2, false)}" fill="#9c958c" stroke="${INK}" stroke-width="2.4"/>`);
+    s.push(contours(cx, cy, 130, 56, rng, 7, '#eef0ec'));
+    for (const [dx, dy, h] of [[-50, 6, 22], [-10, -8, 30], [40, 4, 20], [80, -4, 16]]) {
+      s.push(`<path d="M${cx + dx - h} ${cy + dy + h * 0.5}L${cx + dx} ${cy + dy - h * 0.5}L${cx + dx + h} ${cy + dy + h * 0.5}" ${ink} stroke-width="1.2"/>`);
+      for (let k = 2; k < h; k += 3) s.push(`<path d="M${cx + dx + k} ${cy + dy - h * 0.5 + k}l-3 5" ${ink} stroke-width=".55"/>`);
     }
-    for (let k = 0; k < 3; k++) s.push(`<circle cx="${cx - 48 + k * 8}" cy="${cy - 42 - k * 12}" r="${6 + k * 3}" fill="none" stroke="${INK}" stroke-width="1.6" opacity=".55"/>`);
+  } else if (id === 'volcano') {
+    s.push(contours(cx, cy, 110, 60, rng, 8, '#b4a89c'));
+    s.push(`<ellipse cx="${cx - 8}" cy="${cy - 4}" rx="16" ry="9" ${ink} stroke-width="1.4"/>`);
+    for (let a = 0; a < Math.PI * 2; a += 0.35) s.push(`<path d="M${(cx - 8 + Math.cos(a) * 16).toFixed(1)} ${(cy - 4 + Math.sin(a) * 9).toFixed(1)}l${(Math.cos(a) * 7).toFixed(1)} ${(Math.sin(a) * 4).toFixed(1)}" ${ink} stroke-width=".6"/>`);
   }
   return s.join('');
 }
 
 /**
  * Build the map. Returns an SVG string. Site notes carry data-site; regions with no
- * open sites get a masking-tape "closed" label.
+ * open sites get a "closed" label.
  */
 export function buildMap(data, save) {
   const rng = makeRng('expedition-map');
   const out = [];
   out.push(`<svg viewBox="0 0 ${VW} ${VH}" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Expedition map" preserveAspectRatio="xMidYMid meet">`);
-  out.push(`<defs><pattern id="mapgrid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="${INK}" stroke-opacity=".08" stroke-width="1"/></pattern></defs>`);
-  // paper with a torn edge
+  out.push(`<defs>
+    <filter id="paper" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" seed="4" result="n"/><feColorMatrix in="n" values="0 0 0 0 0.35 0 0 0 0 0.25 0 0 0 0 0.12 0 0 0 0.22 0" result="g"/><feComposite in="g" in2="SourceGraphic" operator="in"/><feBlend in2="SourceGraphic" mode="multiply"/></filter>
+    <filter id="blotch" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves="3" seed="9"/><feColorMatrix values="0 0 0 0 0.45 0 0 0 0 0.3 0 0 0 0 0.12 0 0 0 0.35 -0.08"/><feComposite in2="SourceGraphic" operator="in"/></filter>
+    <filter id="drop" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="1.5" dy="3" stdDeviation="2" flood-color="#2a1a0a" flood-opacity=".45"/></filter>
+    <radialGradient id="burn" cx="50%" cy="50%" r="70%"><stop offset="60%" stop-color="#5a3a18" stop-opacity="0"/><stop offset="100%" stop-color="#5a3a18" stop-opacity=".45"/></radialGradient>
+    <radialGradient id="pin" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#ffb08a"/><stop offset=".45" stop-color="#c8401c"/><stop offset="1" stop-color="#5e1a06"/></radialGradient>
+    <radialGradient id="pinoff" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#d9d4ca"/><stop offset=".5" stop-color="#8d877c"/><stop offset="1" stop-color="#46423b"/></radialGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a9bcb8"/><stop offset="1" stop-color="#7f9aa0"/></linearGradient>
+  </defs>`);
+  // paper with a torn edge, grain, foxing and a darkened border
   const edge = [];
-  for (let x = 10; x <= VW - 10; x += 25) edge.push([x, 10 + rng() * 6]);
-  for (let y = 10; y <= VH - 10; y += 25) edge.push([VW - 10 - rng() * 6, y]);
-  for (let x = VW - 10; x >= 10; x -= 25) edge.push([x, VH - 10 - rng() * 6]);
-  for (let y = VH - 10; y >= 10; y -= 25) edge.push([10 + rng() * 6, y]);
+  for (let x = 10; x <= VW - 10; x += 20) edge.push([x, 10 + rng() * 5]);
+  for (let y = 10; y <= VH - 10; y += 20) edge.push([VW - 10 - rng() * 5, y]);
+  for (let x = VW - 10; x >= 10; x -= 20) edge.push([x, VH - 10 - rng() * 5]);
+  for (let y = VH - 10; y >= 10; y -= 20) edge.push([10 + rng() * 5, y]);
   const edgeD = 'M' + edge.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join(' L') + ' Z';
-  out.push(`<path d="${edgeD}" fill="#dcc093" stroke="#a9834d" stroke-width="2" transform="translate(3 5)" opacity=".7"/>`);
-  out.push(`<path d="${edgeD}" fill="#e6cf9f"/><path d="${edgeD}" fill="url(#mapgrid)"/>`);
-  // sea along the bottom right
-  out.push(`<path d="${wobble([[520, 600], [560, 520], [700, 560], [860, 470], [990, 430], [990, 610], [520, 610]], rng, 8)}" fill="#a9bfc4" opacity=".55"/>`);
-  for (let k = 0; k < 7; k++) {
-    const x = 640 + k * 50 + rng() * 20;
-    const y = 570 - k * 12 + rng() * 14;
-    out.push(`<path d="M${x} ${y} q8 -7 16 0 t16 0" fill="none" stroke="#3b5f7a" stroke-width="2" stroke-linecap="round" opacity=".7"/>`);
-  }
-  // the land outline
-  out.push(`<path d="${wobble([[40, 520], [60, 300], [140, 140], [300, 60], [520, 40], [720, 70], [900, 150], [960, 300], [880, 440], [720, 540], [560, 520], [420, 580], [200, 590]], rng, 14)}" fill="none" stroke="${INK}" stroke-width="2.6" stroke-dasharray="1 0" opacity=".85"/>`);
-  // coffee ring
-  out.push(`<circle cx="880" cy="90" r="52" fill="none" stroke="#6e421c" stroke-opacity=".2" stroke-width="7"/><circle cx="884" cy="93" r="46" fill="none" stroke="#6e421c" stroke-opacity=".1" stroke-width="3"/>`);
-  // expedition route
-  const route = data.regions.map((r) => [X(r.map.x), Y(r.map.y)]);
-  out.push(`<path d="${wobble(route, rng, 10, false)}" fill="none" stroke="#c25a1c" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>`);
+  out.push(`<path d="${edgeD}" fill="#e7d8b8" filter="url(#paper)"/>`);
+  out.push(`<path d="${edgeD}" fill="#e7d8b8" filter="url(#blotch)"/>`);
+  // graticule
+  const grat = [];
+  for (let x = 80; x < VW; x += 120) grat.push(`M${x} 14V${VH - 14}`);
+  for (let y = 70; y < VH; y += 110) grat.push(`M14 ${y}H${VW - 14}`);
+  out.push(`<path d="${grat.join('')}" stroke="#6a4f30" stroke-opacity=".22" stroke-width=".8" fill="none"/>`);
+  for (let x = 80, i = 0; x < VW; x += 120, i++) out.push(`<text x="${x + 3}" y="26" font-family="Courier Prime, monospace" font-size="10" fill="#6a4f30" opacity=".7">${12 + i * 4}°E</text>`);
+  // sea
+  const seaD = wobble([[520, 610], [560, 520], [700, 560], [860, 470], [990, 430], [990, 610]], rng, 6);
+  out.push(`<path d="${seaD}" fill="url(#sea)" opacity=".75"/>`);
+  out.push(`<path d="${seaD}" fill="none" stroke="#3e5a66" stroke-width="1" stroke-opacity=".6"/>`);
+  out.push(`<text x="820" y="560" font-family="Courier Prime, monospace" font-style="italic" font-size="15" letter-spacing="6" fill="#2f4752" opacity=".8">THE SOUND</text>`);
+  // coastline of the land
+  out.push(`<path d="${wobble([[40, 520], [60, 300], [140, 140], [300, 60], [520, 40], [720, 70], [900, 150], [960, 300], [880, 440], [720, 540], [560, 520], [420, 580], [200, 590]], rng, 10)}" fill="#e2cfa6" fill-opacity=".35" stroke="#3a2a1a" stroke-width="1.3" stroke-opacity=".7"/>`);
+  // a river from the tundra down to the sea
+  out.push(`<path d="${wobble([[500, 120], [470, 200], [490, 260], [440, 320], [470, 380], [560, 430], [650, 520], [700, 560]], rng, 12, false)}" fill="none" stroke="#4d6f80" stroke-width="2" stroke-opacity=".8" stroke-linecap="round"/>`);
 
   const stars = totalStars(save, data);
+  // expedition route
+  const route = data.regions.map((r) => [X(r.map.x), Y(r.map.y)]);
   for (const region of data.regions) {
     const cx = X(region.map.x);
     const cy = Y(region.map.y);
     const open = regionUnlocked(save, data, region.id);
-    out.push(`<g class="map-region" opacity="${open ? 1 : 0.55}">${regionArt(region.id, cx, cy, rng)}</g>`);
-    out.push(`<text x="${cx}" y="${cy + 72}" text-anchor="middle" font-family="Kalam, cursive" font-weight="700" font-size="26" fill="${INK}" stroke="#e6cf9f" stroke-width="6" paint-order="stroke" stroke-linejoin="round">${region.name}</text>`);
+    out.push(`<g class="map-region" opacity="${open ? 1 : 0.6}">${regionArt(region.id, cx, cy, rng)}</g>`);
+  }
+  out.push(`<path d="${wobble(route, rng, 8, false)}" fill="none" stroke="#9a3b14" stroke-width="1.6" stroke-dasharray="6 5" stroke-linecap="round" opacity=".8"/>`);
+  for (const region of data.regions) {
+    const cx = X(region.map.x);
+    const cy = Y(region.map.y);
+    const open = regionUnlocked(save, data, region.id);
+    out.push(`<text x="${cx}" y="${cy + 74}" text-anchor="middle" font-family="Courier Prime, monospace" font-weight="700" font-size="17" letter-spacing="4" fill="#2a1f14" stroke="#e7d8b8" stroke-width="5" paint-order="stroke" stroke-linejoin="round">${region.name.toUpperCase()}</text>`);
     if (!open) {
-      out.push(`<g transform="translate(${cx} ${cy}) rotate(-6)"><path d="M-92 -18 L88 -22 L94 18 L-88 22 Z" fill="#f0e2ba" opacity=".95"/><text x="0" y="7" text-anchor="middle" font-family="Courier Prime, monospace" font-weight="700" font-size="17" fill="#8e3f12">CLOSED · NEED ★${region.stars}</text></g>`);
+      out.push(`<g transform="translate(${cx} ${cy - 2}) rotate(-5)"><rect x="-92" y="-15" width="184" height="28" rx="2" fill="none" stroke="#8a2f10" stroke-width="2.4" opacity=".85"/><text x="0" y="5" text-anchor="middle" font-family="Courier Prime, monospace" font-weight="700" font-size="15" letter-spacing="2" fill="#8a2f10" opacity=".9">CLOSED · NEED ★${region.stars}</text></g>`);
     }
   }
-  // the pinned notes
+  // the pinned paper slips
   for (const region of data.regions) {
     region.sites.forEach((site, i) => {
       const x = X(site.map.x);
       const y = Y(site.map.y);
       const can = siteUnlocked(save, data, site.id);
       const rec = save.sites[site.id];
-      const rot = ((i * 37 + region.id.length * 11) % 13) - 6;
+      const rot = ((i * 37 + region.id.length * 11) % 11) - 5;
       const label = site.creature === 'bonebed' ? 'B' : String(i + 1);
       out.push(`<g class="map-note${can ? '' : ' locked'}" data-site="${site.id}" tabindex="${can ? 0 : -1}" role="button" aria-label="${site.name}${can ? '' : ' (locked)'}${rec?.done ? ', dug' : ''}" transform="translate(${x} ${y}) rotate(${rot})">`);
-      out.push(`<line x1="0" y1="-18" x2="${(i % 2 ? 1 : -1) * 6}" y2="-30" stroke="${INK}" stroke-width="1" opacity=".5"/>`);
-      out.push(`<rect class="note-paper" x="-20" y="-18" width="40" height="38" fill="${can ? '#f2e8cf' : '#cfc3a5'}" stroke="${INK}" stroke-width="1.6"/>`);
-      out.push(`<path d="M-14 6h28M-14 12h20" stroke="${INK}" stroke-width="1" opacity=".35"/>`);
-      out.push(`<text x="0" y="4" text-anchor="middle" font-family="Kalam, cursive" font-weight="700" font-size="22" fill="${can ? INK : '#6b6455'}">${label}</text>`);
-      out.push(`<circle cx="0" cy="-18" r="6" fill="${can ? '#c25a1c' : '#8a8273'}" stroke="${INK}" stroke-width="1.5"/><circle cx="-2" cy="-20" r="1.8" fill="#fff" opacity=".7"/>`);
-      if (rec?.done) out.push(`<g transform="translate(14 14) rotate(-14)"><circle r="10" fill="none" stroke="#55572b" stroke-width="2.4"/><path d="M-5 0l3 4 7-8" fill="none" stroke="#55572b" stroke-width="2.6" stroke-linecap="round"/></g>`);
+      out.push(`<g filter="url(#drop)"><rect class="note-paper" x="-19" y="-16" width="38" height="36" rx="1" fill="${can ? '#f6efdf' : '#cfc6b2'}" stroke="#6a4f30" stroke-opacity=".35" stroke-width="1"/></g>`);
+      out.push(`<path d="M-13 9h26M-13 14h18" stroke="#6a8aa8" stroke-width=".7" opacity=".6"/>`);
+      out.push(`<text x="0" y="5" text-anchor="middle" font-family="Kalam, cursive" font-weight="700" font-size="20" fill="${can ? '#1c2740' : '#6b6455'}">${label}</text>`);
+      out.push(`<line x1="0" y1="-16" x2="2.5" y2="-11" stroke="#3a3a3a" stroke-width="1.2"/>`);
+      out.push(`<circle cx="0" cy="-17" r="5.2" fill="url(#${can ? 'pin' : 'pinoff'})" filter="url(#drop)"/>`);
+      if (rec?.done) out.push(`<g transform="translate(12 13) rotate(-14)" opacity=".85"><circle r="8.5" fill="none" stroke="#4f5129" stroke-width="2"/><path d="M-4 0l2.6 3.6 5.6-7" fill="none" stroke="#4f5129" stroke-width="2.2" stroke-linecap="round"/></g>`);
       out.push('</g>');
     });
   }
-  out.push(`<text x="40" y="${VH - 30}" font-family="Courier Prime, monospace" font-size="15" fill="${INK}" opacity=".75">Visitors so far: ★ ${stars}</text>`);
+  // scale bar and a note in the corner
+  out.push(`<g transform="translate(46 ${VH - 40})" font-family="Courier Prime, monospace" font-size="10" fill="#3a2a1a"><rect width="40" height="5" fill="#3a2a1a"/><rect x="40" width="40" height="5" fill="none" stroke="#3a2a1a"/><rect x="80" width="40" height="5" fill="#3a2a1a"/><text y="18">0</text><text x="74" y="18">50 km</text></g>`);
+  out.push(`<text x="${VW - 40}" y="${VH - 30}" text-anchor="end" font-family="Courier Prime, monospace" font-size="13" fill="#3a2a1a" opacity=".8">Visitors so far: ★ ${stars}</text>`);
+  out.push(`<path d="${edgeD}" fill="url(#burn)" pointer-events="none"/>`);
   out.push('</svg>');
   return out.join('');
 }

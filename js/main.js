@@ -8,7 +8,7 @@ import { RebuildView } from './rebuildview.js';
 import { MuseumView } from './museum.js';
 import { buildMap } from './map.js';
 import { drawBonePlaced, drawBoneInBox } from './bones.js';
-import { drawBump, drawTapMark, drawScanMark, cellRand, legendCanvas } from './art.js';
+import { drawBump, drawTapMark, drawScanMark, cellRand, legendCanvas, rockSwatch } from './art.js';
 import { solve } from './solver.js';
 import { utcDay } from './rng.js';
 import { sfx, setMusic, setVolumes, unlockAudio } from './audio.js';
@@ -284,9 +284,11 @@ function sketch(c, w = 520, h = 312) {
   cv.width = w; cv.height = h;
   cv.className = 'fact-sketch';
   const ctx = cv.getContext('2d');
+  ctx.fillStyle = '#efe6d0';
+  ctx.fillRect(0, 0, w, h);
   const s = w / 200;
   ctx.scale(s, s);
-  ctx.strokeStyle = 'rgba(29,43,74,.1)';
+  ctx.strokeStyle = 'rgba(70,110,150,.12)';
   ctx.lineWidth = 0.3;
   for (let x = 0; x <= 200; x += 10) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 120); ctx.stroke(); }
   for (let y = 0; y <= 120; y += 10) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(200, y); ctx.stroke(); }
@@ -294,7 +296,7 @@ function sketch(c, w = 520, h = 312) {
   const q = save.collection[c.id]?.bones || {};
   for (const b of c.bones) {
     if (placed.includes(b.id)) drawBonePlaced(ctx, b, b.x, b.y, b.rot, { outline: 0.6, cracked: q[b.id] === 'c' });
-    else drawBonePlaced(ctx, b, b.x, b.y, b.rot, { ghost: true, dashed: true, outline: 0.5, ink: 'rgba(29,43,74,.35)' });
+    else drawBonePlaced(ctx, b, b.x, b.y, b.rot, { ghost: true, dashed: true, outline: 0.5, paper: '#e6dcc4', ink: 'rgba(60,48,36,.45)' });
   }
   return cv;
 }
@@ -377,11 +379,11 @@ function openHelp() {
   const clues = wrap.querySelector('#help-clues');
   const cb = settings.colourblind;
   const add = (draw, text) => { const p = document.createElement('p'); p.append(legendCanvas(draw, 36)); p.append(text); clues.append(p); };
-  add((c, s) => { c.fillStyle = '#cf9a5c'; c.fillRect(0, 0, s, s); drawBump(c, 0, 0, s, cellRand('help', 2), cb); }, 'Bumps and pale flecks appear when you dig close to a bone. Watch out: hard lumps (concretions) look bumpy too!');
-  add((c, s) => drawTapMark(c, 0, 0, s, 'hollow', cb), 'Tap: hollow means a bone is in that square.');
-  add((c, s) => drawTapMark(c, 0, 0, s, 'echo', cb), 'Tap: an echo means a bone is right next door.');
-  add((c, s) => drawTapMark(c, 0, 0, s, 'solid', cb), 'Tap: solid means no bone here or next door.');
-  add((c, s) => drawScanMark(c, 0, 0, s), 'The scanner pencils in every bone within 2 squares. Save its charges for tricky spots.');
+  add((c, s) => { rockSwatch(c, s); drawBump(c, 0, 0, s, cellRand('help', 2), cb); }, 'Bumps and pale flecks appear when you dig close to a bone. Watch out: hard lumps (concretions) look bumpy too!');
+  add((c, s) => { rockSwatch(c, s); drawTapMark(c, 0, 0, s, 'hollow', cb); }, 'Tap: hollow means a bone is in that square.');
+  add((c, s) => { rockSwatch(c, s); drawTapMark(c, 0, 0, s, 'echo', cb); }, 'Tap: an echo means a bone is right next door.');
+  add((c, s) => { rockSwatch(c, s); drawTapMark(c, 0, 0, s, 'solid', cb); }, 'Tap: solid means no bone here or next door.');
+  add((c, s) => { rockSwatch(c, s); drawScanMark(c, 0, 0, s); }, 'The scanner pencils in every bone within 2 squares. Save its charges for tricky spots.');
   wrap.querySelector('#help-ok').addEventListener('click', closeModal);
   openModal(wrap, { wide: true });
 }

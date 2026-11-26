@@ -304,6 +304,30 @@ const TYPES = {
 
 export const BONE_TYPES = Object.keys(TYPES);
 
+// A tile of tiny pits and specks for the bone surface, scaled so the pores
+// stay about the same size on screen however big the bone is drawn.
+let poreTile = null;
+function poreFor(ctx) {
+  if (typeof document === 'undefined' || !ctx.createPattern) return null;
+  if (!poreTile) {
+    poreTile = document.createElement('canvas');
+    poreTile.width = poreTile.height = 64;
+    const x = poreTile.getContext('2d');
+    let h = 12345;
+    const r = () => { h = (Math.imul(h, 1103515245) + 12345) >>> 0; return h / 4294967296; };
+    for (let i = 0; i < 260; i++) {
+      const px = r() * 64, py = r() * 64, rad = 0.3 + r() * 1.1;
+      x.fillStyle = r() < 0.75 ? `rgba(90,62,32,${0.25 + r() * 0.4})` : `rgba(255,250,235,${0.3 + r() * 0.3})`;
+      x.beginPath(); x.ellipse(px, py, rad * (1 + r()), rad, r() * 3, 0, Math.PI * 2); x.fill();
+    }
+  }
+  const pat = ctx.createPattern(poreTile, 'repeat');
+  const m = ctx.getTransform();
+  const sc = Math.hypot(m.a, m.b) || 1;
+  if (pat.setTransform && typeof DOMMatrix !== 'undefined') pat.setTransform(new DOMMatrix().scale(0.5 / sc));
+  return pat;
+}
+
 // Shapes are cached by type + size + params, since the same bone is drawn every frame.
 const cache = new Map();
 function shapeFor(b) {
@@ -351,32 +375,53 @@ export function drawBoneLocal(ctx, b, opts = {}) {
     ctx.restore();
     return;
   }
-  ctx.strokeStyle = ink;
-  ctx.lineWidth = ow * 2;
+  // Solid fossil bone: a thin umber edge, warm shading top to bottom, a
+  // porous surface and darker rims, like a real cast or fossil.
+  const W = b.w;
+  const L = b.len;
+  const edge = opts.edge || 'rgba(64,42,24,0.9)';
+  ctx.strokeStyle = edge;
+  ctx.lineWidth = ow * 1.7;
   for (const f of sh.fills) ctx.stroke(f);
-  for (const s of sh.strokes) {
-    ctx.lineWidth = s.w + ow * 2;
-    ctx.stroke(s.path);
+  for (const st of sh.strokes) { ctx.lineWidth = st.w + ow * 1.7; ctx.stroke(st.path); }
+  let fill = opts.fill;
+  if (!fill) {
+    const g = ctx.createLinearGradient(0, -W * 0.6, 0, W * 0.6);
+    if (opts.cracked) { g.addColorStop(0, '#e3d9c4'); g.addColorStop(0.5, '#c6b496'); g.addColorStop(1, '#8f775a'); }
+    else { g.addColorStop(0, '#f4e8cc'); g.addColorStop(0.45, '#dcc59a'); g.addColorStop(1, '#a8885b'); }
+    fill = g;
   }
-  const fill = opts.fill || (opts.cracked ? BONE_CRACKED : BONE);
   ctx.fillStyle = fill;
   ctx.strokeStyle = fill;
   for (const f of sh.fills) ctx.fill(f);
-  for (const s of sh.strokes) {
-    ctx.lineWidth = s.w;
-    ctx.stroke(s.path);
+  for (const st of sh.strokes) { ctx.lineWidth = st.w; ctx.stroke(st.path); }
+  const pores = poreFor(ctx);
+  if (pores && sh.fills.length) {
+    ctx.save();
+    const union = new Path2D();
+    for (const f of sh.fills) union.addPath(f);
+    ctx.clip(union);
+    ctx.fillStyle = pores;
+    ctx.globalAlpha *= 0.55;
+    const e = Math.max(L, W) * 1.2;
+    ctx.fillRect(-e, -e, e * 2, e * 2);
+    ctx.globalAlpha /= 0.55;
+    // darker rims where the bone curves away from the light
+    ctx.strokeStyle = 'rgba(80,52,26,0.28)';
+    ctx.lineWidth = ow * 3;
+    ctx.stroke(union);
+    ctx.restore();
   }
-  ctx.strokeStyle = ink;
-  ctx.lineWidth = Math.max(0.6, ow * 0.6);
-  ctx.globalAlpha *= 0.7;
+  ctx.strokeStyle = 'rgba(70,46,24,0.6)';
+  ctx.lineWidth = Math.max(0.5, ow * 0.55);
   for (const d of sh.details) ctx.stroke(d);
   if (opts.cracked) {
-    // A jagged crack across the middle
-    ctx.globalAlpha = Math.min(1, ctx.globalAlpha * 1.5);
-    ctx.lineWidth = Math.max(0.8, ow * 0.8);
-    const L = b.len;
-    const W = b.w;
+    ctx.strokeStyle = 'rgba(40,24,12,0.9)';
+    ctx.lineWidth = Math.max(0.7, ow * 0.75);
     ctx.stroke(line([[-L * 0.05, -W * 0.45], [L * 0.04, -W * 0.15], [-L * 0.04, W * 0.05], [L * 0.06, W * 0.25], [0, W * 0.45]]));
+    ctx.strokeStyle = 'rgba(255,245,225,0.5)';
+    ctx.lineWidth = Math.max(0.4, ow * 0.35);
+    ctx.stroke(line([[-L * 0.05 + ow * 0.6, -W * 0.45], [L * 0.04 + ow * 0.6, -W * 0.15], [-L * 0.04 + ow * 0.6, W * 0.05], [L * 0.06 + ow * 0.6, W * 0.25]]));
   }
   ctx.restore();
 }

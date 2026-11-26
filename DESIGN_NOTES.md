@@ -37,23 +37,44 @@ I cloned every repo on **GorzaWebK** and **GorzaWebA** (the ten you listed, plus
 | Handwriting font (Caveat / Architects Daughter / Gochi Hand) | Paper Tides, Blueprint Heist, Felt Links | **Kalam**, which none of the games use. |
 | Monospace body (system mono) | Skyhook and Brain Break Lab numbers | **Courier Prime**, a proper typewriter face, self-hosted. |
 
+## 2b. Redesign: making it look real (v2)
+
+The first version leaned on a checklist of "journal" props: torn-tape buttons, tag eyelets, graph paper on every surface, tape on every card corner, thick navy outlines and flat colour. That made it look generated. Version 2 keeps the field-kit idea but draws real materials:
+
+| Area | v1 | v2 |
+| --- | --- | --- |
+| Rock | Flat colour squares on a visible grid with stamped clip-art patterns | Painted per pixel from noise (`js/texture.js`): mottling, grain, irregular bedding, pebbles, columnar or blocky joints, flint sheen, root fibres. Layer boundaries meander off the grid, and lone hard lumps are painted as rounded nodules. There are no grid lines. |
+| Holes | Dark squares | Ragged outlines (shared noisy vertices), the shadowed back wall, an inner shadow under the overhang and a lit lip on the edge |
+| Clues | Cartoon marks | Shaded nodules with a stain; tap results in field chalk (orange ring / yellow squiggle / white cross); scanner hits in pink survey paint; a red flag for the probe |
+| Bones | Flat cream, thick navy outline | A warm shaded gradient, a porous surface, darker rims and a thin umber edge |
+| Sky | Line doodles | A painted gradient sky, sun glow, clouds and layered silhouettes per region (mesas, chalk headland, canopy, snow peaks, a volcano with steam) |
+| UI | Tags, torn tape, graph grid everywhere | Plain letterpress card buttons with a grain texture. The cover is a cloth-bound book with a gold-foil title and page edges. Panels are paper with grain. The clipboard is hardboard with a steel clip. |
+| Museum | Pale flat wall, stick figures | A dim gallery wall with spotlight pools, wood panelling, polished boards, stone plinths, skeletons casting shadows on the wall, engraved plaques and soft silhouette visitors |
+| Map | Chunky doodles | A topographic field map: paper grain and foxing, a darkened edge, a graticule, contour rings, hachured cliffs and mesas, a river, small-caps map lettering, pushpins and paper slips with shadows |
+
+**New close calls, checked:**
+
+- **Gold foil on dark blue (cover)** vs **Leadlight** (gilt on indigo stone). Leadlight is carved Gothic stone with Cormorant serif numerals. Ours is woven bookcloth with a handwritten Kalam title in foil, and it only appears on the cover.
+- **Brass in the museum** vs **Borderfall** (brass on umber UI chrome). Ours is lighting in a painted scene (sconces, chains, plaque metal), not interface chrome, and the walls are olive-grey, not umber.
+- The bedding in the rock and the map's contour lines are deliberately *not* watercolour or ink-echo coastlines, so they stay clear of **Paper Tides**.
+
 ## 3. Fossil Fixers' own identity
 
 - **Genre:** dig-and-rebuild puzzle (none of the others are puzzle-excavation games).
-- **Look:** a palaeontologist's field journal. Kraft card, graph paper, coffee rings, torn masking tape, paperclips, string, rubber-stamped labels and navy ink sketches, all drawn in code (CSS gradients, inline SVG and canvas). There are no image files at all.
+- **Look:** a palaeontologist's field kit: a cloth-bound journal, kraft card, a hardboard clipboard, a leather tool roll, real-looking rock and fossil bone, rubber stamps for rewards. Everything is drawn in code (CSS gradients, SVG noise filters, canvas noise). There are no image files at all.
 - **Palette:**
 
   | Token | Hex | Use |
   | --- | --- | --- |
-  | `--kraft` | `#c9a46c` | Sandstone/kraft surfaces |
-  | `--kraft-deep` | `#a9834d` | Shadows, card edges |
-  | `--rust` | `#c25a1c` | Primary tags, energy |
-  | `--olive` | `#77783f` | Secondary, map land |
-  | `--navy` | `#1d2b4a` | Ink, text, cloth cover |
-  | `--bone` | `#f2e8cf` | Fossils, card stock |
+  | `--kraft` | `#b8915f` | Kraft desk surface (with grain) |
+  | `--paper` | `#f3ead6` | Card stock, panels, bookplate |
+  | `--rust` | `#b4511b` | Primary buttons, energy, stamps (more saturated than Felt Links' `#b65a3b`: blue channel 27 vs 59) |
+  | `--olive` | `#6f7139` | Selected states, scanner, gallery wall tint |
+  | `--navy` | `#1c2740` | Cloth cover, headings |
+  | fossil bone | `#f4e8cc` → `#a8885b` | Shaded bone gradient |
 
 - **Type:** Kalam 700 (handwritten headings) + Courier Prime 400/700 (typewriter body). Both are OFL and self-hosted from `fonts/` (Latin subset only, about 90 KB in total), so nothing loads from a font CDN. That also suits school networks that block Google.
-- **Menu:** a closed journal cover. **Map:** a hand-drawn expedition map with pinned notes. **Tools:** a worn leather tool roll with stitched pockets. **HUD:** a clipboard. **Buttons:** manila tags and masking-tape labels.
+- **Menu:** a closed cloth journal cover with a foil title. **Map:** a topographic field map with pinned slips. **Tools:** a leather tool roll with stitched pockets and shaded tool icons. **HUD:** a clipboard. **Buttons:** letterpress card.
 - **Juice:** dust puffs, falling rock chunks, a glassy "clink" and sparkle when a bone comes free, and a camera-flash + "CATALOGUED" rubber stamp when a skeleton is finished. Reduced motion turns off the shake and flash and cuts the particles.
 
 ## 4. Plan

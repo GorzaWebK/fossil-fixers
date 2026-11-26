@@ -2,12 +2,18 @@
 // runs tools through dig.js and keeps the clipboard and tool roll up to date.
 
 import { useTool, isWorkable, showsBump, patternCells, around, colOf, rowOf, allFound, canStillDig, bonesLeft } from './dig.js';
-import { drawRockCell, drawBump, drawTapMark, drawScanMark, drawSkyline, cellRand, legendCanvas, shade, INK, RUST } from './art.js';
+import { drawBump, drawTapMark, drawScanMark, cellRand, legendCanvas, rockSwatch, shade } from './art.js';
+import { paintRock, paintSky, holePath } from './texture.js';
+import { hashString } from './rng.js';
+
+const hashSeed = (s) => hashString(String(s));
 import { drawBoneInBox, drawBoneLocal, boneExtent } from './bones.js';
 import { Particles } from './fx.js';
 import { sfx } from './audio.js';
 
-const SKY = 1.5; // rows of sky above the rock
+const SKY = 1.6; // rows of sky above the rock
+
+const dustOf = (hex) => { const n = parseInt(hex.slice(1), 16); return `rgba(${Math.min(255, ((n >> 16) & 255) + 40)},${Math.min(255, ((n >> 8) & 255) + 35)},${Math.min(255, (n & 255) + 30)},0.7)`; };
 
 export class DigView {
   constructor({ canvas, wrap, data, hud, onEnd }) {
@@ -184,7 +190,7 @@ export class DigView {
       if (ev.opened.length) sfx.crumble();
       for (const n of ev.damaged) {
         const [nx, ny] = this.cellXY(n);
-        this.fx.dust(nx + s / 2, ny + s / 2, 'rgba(226,196,138,0.75)', tool.id === 'brush' ? 4 : 6, s * 0.18);
+        this.fx.dust(nx + s / 2, ny + s / 2, dustOf(rockCol(n)), tool.id === 'brush' ? 4 : 6, s * 0.18);
         if (site.cells[n].hp <= 0 || tool.id !== 'brush') this.fx.chunks(nx + s / 2, ny + s / 2, rockCol(n), site.cells[n].hp <= 0 ? 6 : 3, s * 0.12);
       }
       if (tool.id === 'pickaxe' && !this.settings.reducedMotion) this.shake = 0.18;
@@ -275,11 +281,11 @@ export class DigView {
     L.innerHTML = '';
     const cb = this.settings.colourblind;
     const items = [
-      [(c, s) => { c.fillStyle = '#cf9a5c'; c.fillRect(0, 0, s, s); drawBump(c, 0, 0, s, cellRand('legend', 1), cb); }, 'Bumps: maybe bone (or a lump)'],
-      [(c, s) => drawTapMark(c, 0, 0, s, 'hollow', cb), 'Tap: hollow = bone here'],
-      [(c, s) => drawTapMark(c, 0, 0, s, 'echo', cb), 'Tap: echo = bone next door'],
-      [(c, s) => drawTapMark(c, 0, 0, s, 'solid', cb), 'Tap: solid = nothing'],
-      [(c, s) => drawScanMark(c, 0, 0, s), 'Scanner: bone here'],
+      [(c, s) => { rockSwatch(c, s); drawBump(c, 0, 0, s, cellRand('legend', 1), cb); }, 'Bumps: maybe bone (or a lump)'],
+      [(c, s) => { rockSwatch(c, s); drawTapMark(c, 0, 0, s, 'hollow', cb); }, 'Tap: hollow = bone here'],
+      [(c, s) => { rockSwatch(c, s); drawTapMark(c, 0, 0, s, 'echo', cb); }, 'Tap: echo = bone next door'],
+      [(c, s) => { rockSwatch(c, s); drawTapMark(c, 0, 0, s, 'solid', cb); }, 'Tap: solid = nothing'],
+      [(c, s) => { rockSwatch(c, s); drawScanMark(c, 0, 0, s); }, 'Scanner: bone here'],
     ];
     for (const [draw, text] of items) {
       L.append(legendCanvas(draw, 40));
@@ -323,81 +329,126 @@ export class DigView {
   }
 
   // ------------------------------------------------------------- drawing
+  /** Paint the rock and sky textures for this site at the current size (slow-ish, so only on start / resize). */
+  paintTextures() {
+    const site = this.site;
+    const k = Math.min(1.25, this.dpr);
+    const seed = hashSeed(site.seed);
+    this.tex = paintRock({
+      cols: site.cols, rows: site.rows, cellPx: this.cell * k, seed,
+      rockAt: (c, r) => this.data.rocks[site.cells[r * site.cols + c].rock],
+    });
+    const sky = document.createElement('canvas');
+    sky.width = Math.round(this.w * this.dpr);
+    sky.height = Math.round(this.top * this.dpr);
+    const sx = sky.getContext('2d');
+    sx.scale(this.dpr, this.dpr);
+    paintSky(sx, this.w, this.top, this.region.id, seed);
+    this.sky = sky;
+    this.texSeed = seed;
+    this.texKey = `${site.seed}|${this.w}|${this.h}|${this.dpr}`;
+  }
+
   drawLayer() {
     const site = this.site;
     const ctx = this.layer.getContext('2d');
     const s = this.cell;
+    const key = `${site.seed}|${this.w}|${this.h}|${this.dpr}`;
+    if (this.texKey !== key) this.paintTextures();
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     ctx.clearRect(0, 0, this.w, this.h);
-    drawSkyline(ctx, 0, 0, this.w, this.top, this.region.id, this.region.accent);
     const cb = this.settings.colourblind;
+    const rockH = site.rows * s;
+    ctx.drawImage(this.sky, 0, 0, this.w, this.top);
+    ctx.drawImage(this.tex.rock, 0, this.top, this.w, rockH);
+    // where the rock meets the air: a strip of topsoil and scrubby grass
+    ctx.fillStyle = 'rgba(60,40,20,0.35)';
+    ctx.fillRect(0, this.top, this.w, Math.max(2, s * 0.06));
 
-    // rock and holes
+    // cracks in rock that has been hit but not cleared
     for (let i = 0; i < site.cells.length; i++) {
       const cell = site.cells[i];
+      if (cell.hp <= 0 || !Number.isFinite(cell.maxHp) || cell.hp >= cell.maxHp) continue;
+      const dmg = 1 - cell.hp / cell.maxHp;
       const [x, y] = this.cellXY(i);
-      const rnd = cellRand(site.seed, i);
-      if (cell.hp > 0) {
-        const rock = this.data.rocks[cell.rock];
-        const dmg = Number.isFinite(cell.maxHp) ? 1 - cell.hp / cell.maxHp : 0;
-        drawRockCell(ctx, x, y, s, rock, rnd, dmg);
-        if (showsBump(site, i)) drawBump(ctx, x, y, s, rnd, cb);
-      } else {
-        // a dug-out hole: a shadowy hollow
-        const g = ctx.createLinearGradient(0, y, 0, y + s);
-        g.addColorStop(0, '#3b2a1c');
-        g.addColorStop(1, '#5a4330');
-        ctx.fillStyle = g;
-        ctx.fillRect(x, y, s + 0.5, s + 0.5);
-        ctx.fillStyle = 'rgba(0,0,0,0.25)';
-        if (rowOf(site, i) > 0 && site.cells[i - site.cols].hp > 0) ctx.fillRect(x, y, s, s * 0.18);
+      const rnd = cellRand(site.seed + 'c', i);
+      ctx.fillStyle = `rgba(30,18,8,${0.08 + dmg * 0.18})`;
+      ctx.fillRect(x, y, s, s);
+      const n = 1 + Math.round(dmg * 3);
+      for (let k2 = 0; k2 < n; k2++) {
+        let cx = x + s * (0.15 + rnd() * 0.7), cy = y + s * (0.15 + rnd() * 0.7);
+        const pts = [[cx, cy]];
+        for (let j = 0; j < 4; j++) { cx += (rnd() - 0.5) * s * 0.35; cy += (rnd() - 0.5) * s * 0.35; pts.push([cx, cy]); }
+        for (const [col, off, lw] of [['rgba(255,240,215,0.28)', 1, 1], ['rgba(25,14,6,0.75)', 0, 1.3]]) {
+          ctx.strokeStyle = col; ctx.lineWidth = Math.max(0.8, s / 30) * lw;
+          ctx.beginPath(); pts.forEach(([px, py], q) => (q ? ctx.lineTo(px + off, py + off) : ctx.moveTo(px + off, py + off))); ctx.stroke();
+        }
       }
     }
-    // uncovered parts of bones not yet free
-    for (const b of site.bones) {
-      if (b.found) continue;
-      const open = b.cells.filter((ci) => site.cells[ci].hp <= 0);
-      if (!open.length) continue;
-      let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
-      for (const ci of b.cells) {
-        const [x, y] = this.cellXY(ci);
-        x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x + s); y1 = Math.max(y1, y + s);
-      }
+
+    // bumps (before holes, so a hole edge can cut through them)
+    for (let i = 0; i < site.cells.length; i++) {
+      if (!showsBump(site, i)) continue;
+      const [x, y] = this.cellXY(i);
+      drawBump(ctx, x, y, s, cellRand(site.seed, i), cb);
+    }
+
+    // dug-out holes: ragged edges, the shadowed back wall, an inner shadow
+    // under the overhang and a lit lip on the rock around them
+    const open = (i) => site.cells[i].hp <= 0;
+    if (site.cells.some((c) => c.hp <= 0)) {
+      const hole = holePath(site, s, this.top, this.texSeed, open);
+      const inverse = new Path2D();
+      inverse.rect(-s, this.top, this.w + s * 2, rockH + s);
+      inverse.addPath(hole);
       ctx.save();
-      ctx.beginPath();
-      for (const ci of open) { const [x, y] = this.cellXY(ci); ctx.rect(x, y, s, s); }
-      ctx.clip();
-      drawBoneInBox(ctx, b.bone, (x0 + x1) / 2, (y0 + y1) / 2, x1 - x0, y1 - y0, { cracked: b.cracked, outline: Math.max(1, s / 22) });
+      ctx.clip(hole);
+      ctx.drawImage(this.tex.cavity, 0, this.top, this.w, rockH);
+      ctx.shadowColor = 'rgba(8,4,0,0.85)';
+      ctx.shadowBlur = s * 0.32;
+      ctx.shadowOffsetX = s * 0.07;
+      ctx.shadowOffsetY = s * 0.16;
+      ctx.fillStyle = '#000';
+      ctx.fill(inverse, 'evenodd');
       ctx.restore();
+      ctx.save();
+      ctx.clip(inverse, 'evenodd');
+      ctx.strokeStyle = 'rgba(255,238,210,0.5)';
+      ctx.lineWidth = Math.max(1.4, s * 0.05);
+      ctx.translate(-s * 0.02, s * 0.03);
+      ctx.stroke(hole);
+      ctx.restore();
+      ctx.save();
+      ctx.clip(hole);
+      ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+      ctx.lineWidth = Math.max(1, s * 0.04);
+      ctx.stroke(hole);
+      ctx.restore();
+
+      // uncovered parts of bones still in the ground
+      for (const b of site.bones) {
+        if (b.found) continue;
+        const openCells = b.cells.filter((ci) => site.cells[ci].hp <= 0);
+        if (!openCells.length) continue;
+        let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+        for (const ci of b.cells) {
+          const [x, y] = this.cellXY(ci);
+          x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x + s); y1 = Math.max(y1, y + s);
+        }
+        ctx.save();
+        ctx.clip(hole);
+        const r = new Path2D();
+        for (const ci of openCells) { const [x, y] = this.cellXY(ci); r.rect(x - 1, y - 1, s + 2, s + 2); }
+        ctx.clip(r);
+        ctx.shadowColor = 'rgba(0,0,0,0.6)';
+        ctx.shadowBlur = s * 0.12;
+        ctx.shadowOffsetY = s * 0.05;
+        drawBoneInBox(ctx, b.bone, (x0 + x1) / 2, (y0 + y1) / 2, x1 - x0, y1 - y0, { cracked: b.cracked, outline: Math.max(0.8, s / 30) });
+        ctx.restore();
+      }
     }
-    // layer boundaries: ink lines where the rock type changes
-    ctx.strokeStyle = 'rgba(29,43,74,0.55)';
-    ctx.lineWidth = Math.max(1, s / 20);
-    ctx.beginPath();
-    for (let i = 0; i < site.cells.length; i++) {
-      const cell = site.cells[i];
-      if (cell.hp <= 0) continue;
-      const [x, y] = this.cellXY(i);
-      const c = colOf(site, i), r = rowOf(site, i);
-      if (c < site.cols - 1) { const n = site.cells[i + 1]; if (n.hp > 0 && n.rock !== cell.rock) { ctx.moveTo(x + s, y); ctx.lineTo(x + s, y + s); } }
-      if (r < site.rows - 1) { const n = site.cells[i + site.cols]; if (n.hp > 0 && n.rock !== cell.rock) { ctx.moveTo(x, y + s); ctx.lineTo(x + s, y + s); } }
-    }
-    ctx.stroke();
-    // faint grid, and a light edge on the cells you can work right now
-    ctx.strokeStyle = 'rgba(29,43,74,0.13)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    for (let c = 0; c <= site.cols; c++) { ctx.moveTo(c * s + 0.5, this.top); ctx.lineTo(c * s + 0.5, this.h); }
-    for (let r = 0; r <= site.rows; r++) { ctx.moveTo(0, this.top + r * s + 0.5); ctx.lineTo(this.w, this.top + r * s + 0.5); }
-    ctx.stroke();
-    ctx.strokeStyle = 'rgba(255,250,235,0.55)';
-    ctx.lineWidth = Math.max(1.5, s / 16);
-    for (let i = 0; i < site.cells.length; i++) {
-      if (!isWorkable(site, i) || !Number.isFinite(site.cells[i].hp)) continue;
-      const [x, y] = this.cellXY(i);
-      ctx.strokeRect(x + 2, y + 2, s - 4, s - 4);
-    }
-    // marks on top
+
+    // field marks on top
     for (let i = 0; i < site.cells.length; i++) {
       const cell = site.cells[i];
       if (cell.hp <= 0) continue;
@@ -405,10 +456,15 @@ export class DigView {
       if (cell.scanned || cell.probed) drawScanMark(ctx, x, y, s, cell.probed && !cell.scanned);
       if (cell.tap) drawTapMark(ctx, x, y, s, cell.tap, cb);
     }
-    // frame
-    ctx.strokeStyle = INK;
-    ctx.lineWidth = 2;
-    ctx.strokeRect(1, 1, this.w - 2, this.h - 2);
+    // soft vignette and a fine frame
+    const vg = ctx.createRadialGradient(this.w / 2, this.top + rockH / 2, rockH * 0.35, this.w / 2, this.top + rockH / 2, Math.max(this.w, rockH) * 0.8);
+    vg.addColorStop(0, 'rgba(0,0,0,0)');
+    vg.addColorStop(1, 'rgba(20,10,0,0.28)');
+    ctx.fillStyle = vg;
+    ctx.fillRect(0, this.top, this.w, rockH);
+    ctx.strokeStyle = 'rgba(30,20,10,0.6)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(0.5, 0.5, this.w - 1, this.h - 1);
     this.layerDirty = false;
   }
 
@@ -456,20 +512,24 @@ export class DigView {
       else if (tool.kind === 'probe') { cells = []; for (let r = 0; r < site.rows; r++) cells.push(r * site.cols + colOf(site, at)); }
       const usable = tool.kind === 'scan' || tool.kind === 'probe' || isWorkable(site, at);
       if (tool.cracks === 'area' && usable) {
-        ctx.fillStyle = 'rgba(194,90,28,0.14)';
+        ctx.fillStyle = 'rgba(255,110,40,0.16)';
         for (const ci of around(site, at, 1)) { const [x, y] = this.cellXY(ci); ctx.fillRect(x, y, s, s); }
       }
-      ctx.strokeStyle = usable ? RUST : 'rgba(29,43,74,0.6)';
-      ctx.lineWidth = Math.max(2, s / 12);
+      ctx.fillStyle = usable ? 'rgba(255,255,240,0.16)' : 'rgba(0,0,0,0.18)';
+      for (const ci of cells) { const [x, y] = this.cellXY(ci); ctx.fillRect(x, y, s, s); }
+      ctx.strokeStyle = usable ? 'rgba(255,252,240,0.9)' : 'rgba(20,10,0,0.6)';
+      ctx.lineWidth = Math.max(1.5, s / 18);
       ctx.setLineDash(usable ? [] : [4, 4]);
       for (const ci of cells) { const [x, y] = this.cellXY(ci); ctx.strokeRect(x + 1.5, y + 1.5, s - 3, s - 3); }
       ctx.setLineDash([]);
       if (this.cursor >= 0) {
         const [x, y] = this.cellXY(at);
-        ctx.strokeStyle = INK;
         ctx.lineWidth = 3;
-        ctx.setLineDash([5, 3]);
-        ctx.strokeRect(x - 2, y - 2, s + 4, s + 4);
+        ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+        ctx.strokeRect(x - 1, y - 1, s + 2, s + 2);
+        ctx.strokeStyle = '#fff';
+        ctx.setLineDash([5, 4]);
+        ctx.strokeRect(x - 1, y - 1, s + 2, s + 2);
         ctx.setLineDash([]);
       }
     }
@@ -491,8 +551,9 @@ export class DigView {
       ctx.save();
       ctx.globalAlpha = 1 - Math.max(0, (k - 0.85) / 0.15);
       ctx.translate(x, y);
-      ctx.fillStyle = 'rgba(255,248,225,0.7)';
-      ctx.beginPath(); ctx.arc(0, 0, Math.max(f.w, f.h) * 0.55 * scale, 0, Math.PI * 2); ctx.fill();
+      ctx.shadowColor = 'rgba(0,0,0,0.5)';
+      ctx.shadowBlur = s * 0.4;
+      ctx.shadowOffsetY = s * 0.2 * lift;
       drawBoneInBox(ctx, f.bone, 0, 0, f.w * scale, f.h * scale, { cracked: f.cracked, outline: Math.max(1, s / 20) });
       ctx.restore();
     }

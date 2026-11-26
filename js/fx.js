@@ -83,7 +83,7 @@ export class Particles {
         ctx.translate(p.x, p.y);
         ctx.rotate(p.rot);
         ctx.fillStyle = p.color;
-        ctx.strokeStyle = 'rgba(29, 43, 74, 0.8)';
+        ctx.strokeStyle = 'rgba(30, 18, 8, 0.45)';
         ctx.lineWidth = 1;
         ctx.beginPath();
         p.pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));

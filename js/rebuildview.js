@@ -4,6 +4,7 @@
 import { startRebuild, layoutTray, dropPiece, nearButTurned, isComplete, ROT_STEP, angleDiff } from './rebuild.js';
 import { drawBonePlaced, boneExtent, INK } from './bones.js';
 import { Particles } from './fx.js';
+import { grain } from './texture.js';
 import { sfx } from './audio.js';
 
 export class RebuildView {
@@ -108,6 +109,18 @@ export class RebuildView {
     const s = Math.abs(Math.sin(a));
     const k = p.s ?? 1;
     return { w: (ext.w * c + ext.h * s) * k + 2, h: (ext.w * s + ext.h * c) * k + 2 };
+  }
+
+  /** Multiply a little paper / felt grain over a rectangle. */
+  grainOver(ctx, x, y, w, h, alpha) {
+    if (!this.grainPat) this.grainPat = ctx.createPattern(grain(), 'repeat');
+    if (this.grainPat.setTransform) this.grainPat.setTransform(new DOMMatrix().scale(0.25 / this.scale * 2));
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.fillStyle = this.grainPat;
+    ctx.fillRect(x, y, w, h);
+    ctx.restore();
   }
 
   toWorld(e) {
@@ -270,36 +283,30 @@ export class RebuildView {
     ctx.translate(this.ox, this.oy);
     ctx.scale(this.scale, this.scale);
     const ow = 1.3 / this.scale;
-    // skeleton card
-    ctx.fillStyle = '#f2e8cf';
-    ctx.shadowColor = 'rgba(74,44,24,0.35)';
-    ctx.shadowOffsetY = 3 / this.scale;
-    ctx.fillRect(-4, -4, 208, 128);
-    ctx.shadowColor = 'transparent';
-    ctx.strokeStyle = 'rgba(29,43,74,0.1)';
-    ctx.lineWidth = 0.4;
-    ctx.beginPath();
-    for (let x = 0; x <= 200; x += 10) { ctx.moveTo(x, -4); ctx.lineTo(x, 124); }
-    for (let y = 0; y <= 120; y += 10) { ctx.moveTo(-4, y); ctx.lineTo(204, y); }
-    ctx.stroke();
-    ctx.strokeStyle = 'rgba(29,43,74,0.45)';
-    ctx.lineWidth = 0.8;
-    ctx.beginPath(); ctx.moveTo(-4, 112); ctx.lineTo(204, 112); ctx.stroke();
-    ctx.font = `700 7px 'Kalam', cursive`;
-    ctx.fillStyle = INK;
-    ctx.fillText(this.creature.name, 4, 8);
-    // body silhouette: a soft wash behind the bones
+    // skeleton sheet: cream drafting paper with grain and a faint grid
     ctx.save();
-    ctx.globalAlpha = 0.07;
-    ctx.strokeStyle = '#77783f';
-    ctx.lineCap = 'round';
-    for (const b of this.creature.bones) {
-      ctx.lineWidth = b.w * 1.6 + 6;
-      const a = (b.rot * Math.PI) / 180;
-      const hx = Math.cos(a) * b.len * 0.45, hy = Math.sin(a) * b.len * 0.45;
-      ctx.beginPath(); ctx.moveTo(b.x - hx, b.y - hy); ctx.lineTo(b.x + hx, b.y + hy); ctx.stroke();
-    }
+    ctx.shadowColor = 'rgba(40,24,10,0.45)';
+    ctx.shadowOffsetY = 4 / this.scale;
+    ctx.shadowBlur = 10 / this.scale;
+    ctx.fillStyle = '#f2e9d4';
+    ctx.fillRect(-5, -5, 210, 130);
     ctx.restore();
+    this.grainOver(ctx, -5, -5, 210, 130, 0.22);
+    ctx.strokeStyle = 'rgba(70,110,150,0.13)';
+    ctx.lineWidth = 0.3;
+    ctx.beginPath();
+    for (let x = 0; x <= 200; x += 10) { ctx.moveTo(x, -5); ctx.lineTo(x, 125); }
+    for (let y = 0; y <= 120; y += 10) { ctx.moveTo(-5, y); ctx.lineTo(205, y); }
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(42,33,24,0.35)';
+    ctx.lineWidth = 0.6;
+    ctx.beginPath(); ctx.moveTo(-5, 112); ctx.lineTo(205, 112); ctx.stroke();
+    ctx.font = `700 7px 'Kalam', cursive`;
+    ctx.fillStyle = '#1c2740';
+    ctx.fillText(this.creature.name, 4, 8);
+    ctx.font = `4px 'Courier Prime', monospace`;
+    ctx.fillStyle = 'rgba(42,33,24,0.6)';
+    ctx.fillText(`after ${this.creature.inspired} · ${this.creature.bones.length} elements`, 4, 13.5);
     // outlines and placed bones
     const hintFor = this.hintT > 0 && this.sel ? this.sel.boneId : null;
     this.hintT -= dt;
@@ -308,33 +315,44 @@ export class RebuildView {
         drawBonePlaced(ctx, b, b.x, b.y, b.rot, { outline: ow, cracked: this.quality[b.id] === 'c' });
       } else {
         const pulse = hintFor === b.id ? 0.5 + 0.5 * Math.sin(performance.now() / 120) : 0;
-        drawBonePlaced(ctx, b, b.x, b.y, b.rot, { ghost: true, dashed: true, paper: '#e6d8b6', outline: ow * (1 + pulse * 1.5), ink: pulse ? '#c25a1c' : 'rgba(29,43,74,0.75)' });
+        drawBonePlaced(ctx, b, b.x, b.y, b.rot, { ghost: true, dashed: true, paper: '#e9dec5', outline: ow * (1 + pulse * 1.5), ink: pulse ? '#b4511b' : 'rgba(60,48,36,0.7)' });
       }
     }
-    // tray
+    // specimen tray: a wooden frame lined with dark felt
     const t = this.tray;
-    ctx.fillStyle = '#d8bd86';
-    ctx.strokeStyle = 'rgba(74,44,24,0.6)';
-    ctx.lineWidth = 1.2 / this.scale * 1.5;
+    const fw = 3;
+    ctx.save();
+    ctx.shadowColor = 'rgba(30,16,4,0.5)';
+    ctx.shadowOffsetY = 3 / this.scale;
+    ctx.shadowBlur = 8 / this.scale;
+    const wood = ctx.createLinearGradient(t.x0, t.y0, t.x1, t.y1);
+    wood.addColorStop(0, '#9a6a3c'); wood.addColorStop(0.5, '#7a4f2a'); wood.addColorStop(1, '#5c3a1e');
+    ctx.fillStyle = wood;
     ctx.fillRect(t.x0, t.y0, t.x1 - t.x0, t.y1 - t.y0);
-    ctx.setLineDash([3, 2]);
-    ctx.strokeRect(t.x0 + 2, t.y0 + 2, t.x1 - t.x0 - 4, t.y1 - t.y0 - 4);
-    ctx.setLineDash([]);
-    ctx.fillStyle = INK;
-    ctx.font = `700 6px 'Courier Prime', monospace`;
-    ctx.fillText('FINDS TRAY', t.x0 + 5, t.y0 + 8);
+    ctx.restore();
+    ctx.fillStyle = '#34352a';
+    ctx.fillRect(t.x0 + fw, t.y0 + fw, t.x1 - t.x0 - fw * 2, t.y1 - t.y0 - fw * 2);
+    this.grainOver(ctx, t.x0 + fw, t.y0 + fw, t.x1 - t.x0 - fw * 2, t.y1 - t.y0 - fw * 2, 0.35);
+    const inner = ctx.createLinearGradient(0, t.y0 + fw, 0, t.y0 + fw + 8);
+    inner.addColorStop(0, 'rgba(0,0,0,0.45)'); inner.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = inner;
+    ctx.fillRect(t.x0 + fw, t.y0 + fw, t.x1 - t.x0 - fw * 2, 8);
+    ctx.fillStyle = 'rgba(240,228,204,0.75)';
+    ctx.font = `700 4.5px 'Courier Prime', monospace`;
+    ctx.fillText('FINDS', t.x0 + fw + 3, t.y0 + fw + 7);
     // pieces
     for (const p of this.state.pieces) {
       if (p.placed) continue;
       const b = this.boneOf(p);
       ctx.save();
       if (p === this.sel) {
-        ctx.shadowColor = 'rgba(194,90,28,0.9)';
-        ctx.shadowBlur = 8;
+        ctx.shadowColor = 'rgba(0,0,0,0.55)';
+        ctx.shadowOffsetY = 6 / this.scale;
+        ctx.shadowBlur = 10;
       } else {
-        ctx.shadowColor = 'rgba(40,24,10,0.35)';
-        ctx.shadowOffsetY = 2 / this.scale;
-        ctx.shadowBlur = 2;
+        ctx.shadowColor = 'rgba(0,0,0,0.5)';
+        ctx.shadowOffsetY = 1.5 / this.scale;
+        ctx.shadowBlur = 3;
       }
       const k = p.s ?? 1;
       ctx.translate(p.x, p.y);
