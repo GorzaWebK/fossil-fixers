@@ -1,0 +1,36 @@
+{
+  "_help": "Rock types. hp = hits of damage to clear one cell (null = can't be broken). pattern: dots | lines | hatch | cross | waves | flecks | blocks | bubbles | solid. tags let tools pick which rocks they work on (soft, ice, ash, loose).",
+  "rocks": {
+    "sand":        { "name": "Soft sand",      "hp": 1, "color": "#e2c48a", "pattern": "dots",    "tags": ["soft", "loose"] },
+    "sandstone":   { "name": "Sandstone",      "hp": 2, "color": "#cf9a5c", "pattern": "lines",   "tags": ["soft"] },
+    "clay":        { "name": "Red clay",       "hp": 2, "color": "#b46a45", "pattern": "waves",   "tags": ["soft"] },
+    "ironstone":   { "name": "Ironstone",      "hp": 4, "color": "#8d5230", "pattern": "hatch",   "tags": [] },
+    "redbed":      { "name": "Bedrock",        "hp": null, "color": "#5b3a2a", "pattern": "blocks", "tags": [] },
+
+    "shingle":     { "name": "Beach shingle",  "hp": 1, "color": "#c9bfa8", "pattern": "bubbles", "tags": ["soft", "loose"] },
+    "chalk":       { "name": "Chalk",          "hp": 2, "color": "#ebe4d0", "pattern": "dots",    "tags": ["soft"] },
+    "blueclay":    { "name": "Blue clay",      "hp": 3, "color": "#8b97a0", "pattern": "waves",   "tags": ["soft"] },
+    "flint":       { "name": "Flint nodule",   "hp": 5, "color": "#4f5662", "pattern": "cross",   "tags": [] },
+    "seabed":      { "name": "Bedrock",        "hp": null, "color": "#3f4a55", "pattern": "blocks", "tags": [] },
+
+    "mud":         { "name": "River mud",      "hp": 1, "color": "#9b7a4e", "pattern": "waves",   "tags": ["soft", "loose"] },
+    "silt":        { "name": "Silt",           "hp": 2, "color": "#b49a6a", "pattern": "lines",   "tags": ["soft"] },
+    "gravel":      { "name": "River gravel",   "hp": 3, "color": "#8a8468", "pattern": "bubbles", "tags": [] },
+    "roots":       { "name": "Root tangle",    "hp": 4, "color": "#6f5a35", "pattern": "cross",   "tags": [] },
+    "jungbed":     { "name": "Bedrock",        "hp": null, "color": "#4a4430", "pattern": "blocks", "tags": [] },
+
+    "snow":        { "name": "Packed snow",    "hp": 1, "color": "#eef0ea", "pattern": "dots",    "tags": ["soft", "loose", "ice"] },
+    "permafrost":  { "name": "Permafrost",     "hp": 3, "color": "#a9a58f", "pattern": "flecks",  "tags": ["ice"] },
+    "ice":         { "name": "Old ice",        "hp": 4, "color": "#bcd0d6", "pattern": "lines",   "tags": ["ice"] },
+    "frozengravel":{ "name": "Frozen gravel",  "hp": 4, "color": "#7d8278", "pattern": "bubbles", "tags": ["ice"] },
+    "granite":     { "name": "Bedrock",        "hp": null, "color": "#4b4f55", "pattern": "blocks", "tags": [] },
+
+    "ash":         { "name": "Loose ash",      "hp": 1, "color": "#9c958c", "pattern": "dots",    "tags": ["soft", "loose", "ash"] },
+    "tuff":        { "name": "Tuff",           "hp": 2, "color": "#b9a27f", "pattern": "flecks",  "tags": ["soft", "ash"] },
+    "pumice":      { "name": "Pumice",         "hp": 2, "color": "#d3c7b0", "pattern": "bubbles", "tags": ["ash"] },
+    "basalt":      { "name": "Basalt",         "hp": 5, "color": "#4c4744", "pattern": "hatch",   "tags": [] },
+    "obsidian":    { "name": "Bedrock",        "hp": null, "color": "#2d2a2e", "pattern": "blocks", "tags": [] },
+
+    "concretion":  { "name": "Concretion",     "hp": 3, "color": null, "pattern": "solid", "tags": [], "_note": "A hard lump that looks bumpy like a bone. Takes the colour of the rock around it." }
+  }
+}

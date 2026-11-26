@@ -1,0 +1,24 @@
+{
+  "_help": "Museum cosmetics. kind: lighting | plaque | banner | floor. stars = visitors (stars) needed to unlock. Nothing is spent: you keep your stars.",
+  "upgrades": [
+    { "id": "light-lamps",    "kind": "lighting", "name": "Oil lamps",          "stars": 0 },
+    { "id": "light-spots",    "kind": "lighting", "name": "Brass spotlights",   "stars": 6 },
+    { "id": "light-skylight", "kind": "lighting", "name": "Skylight sunbeams",  "stars": 14 },
+    { "id": "light-lanterns", "kind": "lighting", "name": "Paper lanterns",     "stars": 26 },
+
+    { "id": "plaque-card",    "kind": "plaque",   "name": "Card labels",        "stars": 0 },
+    { "id": "plaque-wood",    "kind": "plaque",   "name": "Wooden plaques",     "stars": 3 },
+    { "id": "plaque-brass",   "kind": "plaque",   "name": "Brass plaques",      "stars": 12 },
+    { "id": "plaque-slate",   "kind": "plaque",   "name": "Slate and gold",     "stars": 30 },
+
+    { "id": "banner-none",    "kind": "banner",   "name": "Bare walls",         "stars": 0 },
+    { "id": "banner-bunting", "kind": "banner",   "name": "Bunting",            "stars": 5 },
+    { "id": "banner-region",  "kind": "banner",   "name": "Region banners",     "stars": 10 },
+    { "id": "banner-tapestry","kind": "banner",   "name": "Grand tapestry",     "stars": 20 },
+
+    { "id": "floor-boards",   "kind": "floor",    "name": "Floorboards",        "stars": 0 },
+    { "id": "floor-checker",  "kind": "floor",    "name": "Checker tiles",      "stars": 8 },
+    { "id": "floor-mosaic",   "kind": "floor",    "name": "Fossil mosaic",      "stars": 18 },
+    { "id": "floor-marble",   "kind": "floor",    "name": "Polished marble",    "stars": 36 }
+  ]
+}

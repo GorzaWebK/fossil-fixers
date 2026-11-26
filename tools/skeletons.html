@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skeleton preview · Fossil Fixers</title>
+<style>
+  body { margin: 0; padding: 16px; background: #c9a46c; font: 14px 'Courier New', monospace; color: #1d2b4a; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 14px; }
+  figure { margin: 0; background: #f2e8cf; padding: 8px; box-shadow: 0 2px 0 #a9834d; }
+  canvas { width: 100%; height: auto; display: block; }
+  figcaption { margin-top: 6px; }
+  label { display: inline-block; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<h1>Skeleton preview</h1>
+<p>Every creature in <code>data/creatures.json</code>, drawn the way the rebuild screen draws it. Run a local server in the repo folder (for example <code>npx serve</code>) and open <code>/tools/skeletons.html</code>.</p>
+<label><input type="checkbox" id="labels"> show bone ids</label>
+<div class="grid" id="grid"></div>
+<script type="module">
+  import { drawBonePlaced } from '../js/bones.js';
+  const data = await (await fetch('../data/creatures.json')).json();
+  const grid = document.getElementById('grid');
+  const S = 2.2;
+  function render() {
+    grid.innerHTML = '';
+    for (const c of data.creatures) {
+      const fig = document.createElement('figure');
+      const cv = document.createElement('canvas');
+      cv.width = 200 * S * 2; cv.height = 120 * S * 2;
+      const ctx = cv.getContext('2d');
+      ctx.scale(S * 2, S * 2);
+      ctx.strokeStyle = 'rgba(29,43,74,.12)';
+      ctx.lineWidth = 0.3;
+      for (let x = 0; x <= 200; x += 10) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 120); ctx.stroke(); }
+      for (let y = 0; y <= 120; y += 10) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(200, y); ctx.stroke(); }
+      ctx.strokeStyle = 'rgba(29,43,74,.5)'; ctx.beginPath(); ctx.moveTo(0, 112); ctx.lineTo(200, 112); ctx.stroke();
+      for (const b of c.bones) drawBonePlaced(ctx, b, b.x, b.y, b.rot, { outline: 0.7 });
+      if (document.getElementById('labels').checked) {
+        ctx.font = '4px monospace'; ctx.fillStyle = '#c25a1c';
+        for (const b of c.bones) ctx.fillText(b.id, b.x - 6, b.y);
+      }
+      fig.append(cv);
+      const cap = document.createElement('figcaption');
+      cap.textContent = `${c.name} (${c.inspired}) · ${c.bones.length} bones · ${c.region}`;
+      fig.append(cap);
+      grid.append(fig);
+    }
+  }
+  document.getElementById('labels').onchange = render;
+  render();
+</script>
+</body>
+</html>

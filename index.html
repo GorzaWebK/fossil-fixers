@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en-GB" data-text="m">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fossil Fixers</title>
+<meta name="description" content="Fossil Fixers: dig up fossil bones, rebuild skeletons and fill your own museum. A free puzzle game for the browser.">
+<meta name="theme-color" content="#1d2b4a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23c9a46c'/%3E%3Cpath d='M9 22l14-12' stroke='%231d2b4a' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M9 22l14-12' stroke='%23f2e8cf' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='8' cy='21' r='3.4' fill='%23f2e8cf' stroke='%231d2b4a' stroke-width='1.6'/%3E%3Ccircle cx='24' cy='11' r='3.4' fill='%23f2e8cf' stroke='%231d2b4a' stroke-width='1.6'/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/kalam-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/courier-prime-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- Icons (drawn as simple ink sketches) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-brush" viewBox="0 0 48 48"><path d="M30 6l8 8-14 14-8-8z" fill="#a9834d" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M16 20l8 8-4 4c-4 4-10 4-13 9-1-6 1-11 5-15z" fill="#e2c48a" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M11 33l4-4M14 36l4-4" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-chisel" viewBox="0 0 48 48"><path d="M34 4l10 10-8 8-10-10z" fill="#c25a1c" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M26 12l10 10-20 20-6 2 2-6z" fill="#cfd3d6" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 34l4 4" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-pickaxe" viewBox="0 0 48 48"><path d="M8 18C16 6 32 4 42 10 32 8 22 12 14 22z" fill="#cfd3d6" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M24 14l4 4-18 24-5-3z" fill="#a9834d" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-tap" viewBox="0 0 48 48"><path d="M12 10h20l4 6H8z" fill="#cfd3d6" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M20 16h6v26h-6z" fill="#a9834d" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M38 24c3 2 3 6 0 8M41 21c5 4 5 10 0 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-scanner" viewBox="0 0 48 48"><rect x="10" y="6" width="26" height="36" rx="5" fill="#77783f" stroke="currentColor" stroke-width="2.4"/><rect x="15" y="11" width="16" height="14" rx="2" fill="#f2e8cf" stroke="currentColor" stroke-width="2"/><path d="M17 21l4-5 3 3 4-5" fill="none" stroke="#c25a1c" stroke-width="2"/><circle cx="23" cy="33" r="4" fill="#c25a1c" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-trowel" viewBox="0 0 48 48"><path d="M6 30L26 10l12 12-20 20z" fill="#cfd3d6" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M32 16l6-6 4 4-6 6" fill="#a9834d" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></symbol>
+    <symbol id="i-spray" viewBox="0 0 48 48"><path d="M16 18h14v24H16z" fill="#7fa0b0" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M18 18v-6h10l6 3-2 3" fill="#f2e8cf" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M38 10l4-2M39 15h5M38 20l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-probe" viewBox="0 0 48 48"><path d="M22 4h4v32l-2 8-2-8z" fill="#cfd3d6" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M14 8h20" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M18 20h3M18 26h3M18 32h3" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-lamp" viewBox="0 0 48 48"><path d="M10 22c0-8 6-14 14-14s14 6 14 14z" fill="#c25a1c" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 28l-4 6M24 28v8M34 28l4 6" stroke="#c25a1c" stroke-width="2.6" stroke-linecap="round"/><path d="M22 8V4h4v4" fill="none" stroke="currentColor" stroke-width="2.2"/></symbol>
+    <symbol id="i-blower" viewBox="0 0 48 48"><circle cx="34" cy="26" r="9" fill="#77783f" stroke="currentColor" stroke-width="2.4"/><path d="M26 22H8v8h18" fill="#cfd3d6" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M4 18c2 0 3-2 5-2M3 26h4M4 34c2 0 3 2 5 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z" fill="currentColor"/></symbol>
+    <symbol id="i-bone" viewBox="0 0 24 24"><path d="M6 15l9-9" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="5" cy="14" r="2.6" fill="currentColor"/><circle cx="7" cy="17.6" r="2.6" fill="currentColor"/><circle cx="16.6" cy="7" r="2.6" fill="currentColor"/><circle cx="19" cy="10" r="2.6" fill="currentColor"/></symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M18 8a8 8 0 1 0 1.6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M19.5 3v6h-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<div id="app">
+
+  <!-- ======================= COVER (main menu) ======================= -->
+  <section id="screen-cover" class="screen active" aria-label="Main menu">
+    <div class="cover-desk">
+      <div class="journal" role="presentation">
+        <div class="journal-spine"></div>
+        <div class="journal-strap"></div>
+        <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+        <div class="journal-face">
+          <div class="cover-label">
+            <p class="cover-kicker">Field Journal · Vol. 1</p>
+            <h1 class="title">Fossil Fixers</h1>
+            <p class="cover-sub">Dig · Rebuild · Display</p>
+          </div>
+          <div class="owner-card">
+            <label for="nickname" class="owner-label">Property of (nickname):</label>
+            <input id="nickname" aria-describedby="name-warning" maxlength="16" autocomplete="off" spellcheck="false" placeholder="e.g. Rocky Raptor">
+            <p class="warn-name" id="name-warning"><span><strong>Don't use your real name.</strong> Pick a fun explorer nickname instead.</span></p>
+          </div>
+          <nav class="cover-menu" aria-label="Main menu">
+            <button class="tag tag-rust" id="btn-play"><span>Open the map</span></button>
+            <button class="tag" id="btn-daily"><span>Daily Dig</span></button>
+            <button class="tag" id="btn-museum"><span>My museum</span></button>
+            <div class="tape-row">
+              <button class="tape" id="btn-help">How to play</button>
+              <button class="tape" id="btn-settings">Settings</button>
+              <button class="tape" id="btn-account">Account code</button>
+            </div>
+          </nav>
+          <p class="cover-stars"><svg class="ic"><use href="#i-star"/></svg> <span id="cover-stars">0</span> visitors</p>
+        </div>
+      </div>
+      <div class="cover-footer">
+        <a class="bbl-link" href="https://gorzawebk.github.io/brain-break-lab/" target="_top">← Back to Brain Break Lab</a>
+        <div class="ad-safe" id="ad-cover" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= MAP ======================= -->
+  <section id="screen-map" class="screen" aria-label="Expedition map">
+    <header class="topbar">
+      <button class="tape small" data-go="cover">← Journal</button>
+      <h2 class="hand">Expedition map</h2>
+      <div class="topbar-right">
+        <span class="star-count" title="Visitors (stars)"><svg class="ic"><use href="#i-star"/></svg> <b id="map-stars">0</b></span>
+        <button class="tape small" data-go="museum">Museum</button>
+      </div>
+    </header>
+    <div class="map-wrap">
+      <div class="map-board" id="map-board"></div>
+      <aside class="brief" id="brief" hidden></aside>
+    </div>
+    <div class="map-footer">
+      <a class="bbl-link" href="https://gorzawebk.github.io/brain-break-lab/" target="_top">← Back to Brain Break Lab</a>
+      <div class="ad-safe" id="ad-map" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ======================= DIG ======================= -->
+  <section id="screen-dig" class="screen" aria-label="Dig site">
+    <div class="dig-layout">
+      <div class="dig-main">
+        <div class="dig-canvas-wrap" id="dig-wrap">
+          <canvas id="dig-canvas" aria-label="Dig site rock grid. Use the arrow keys to move, and Space to use the tool."></canvas>
+          <div class="dig-toast" id="dig-toast" role="status" aria-live="polite"></div>
+        </div>
+        <div class="toolroll" id="toolroll" role="toolbar" aria-label="Tools"></div>
+      </div>
+      <aside class="clipboard" id="clipboard" aria-label="Dig notes">
+        <div class="clip"></div>
+        <div class="clip-paper">
+          <p class="clip-site" id="clip-site">Site</p>
+          <div class="meter" aria-label="Energy">
+            <div class="meter-label"><span>Energy</span><b id="energy-num">0</b></div>
+            <div class="meter-bar"><div class="meter-fill" id="energy-fill"></div></div>
+          </div>
+          <div class="charges" id="charges"></div>
+          <p class="clip-h">Bones <span id="bones-count">0/0</span></p>
+          <ul class="bone-list" id="bone-list"></ul>
+          <div class="legend" id="legend"></div>
+          <div class="clip-buttons">
+            <button class="tape small" id="btn-dig-help">? Help</button>
+            <button class="tag tag-small" id="btn-packup"><span>Pack up</span></button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ======================= REBUILD ======================= -->
+  <section id="screen-rebuild" class="screen" aria-label="Rebuild the skeleton">
+    <header class="topbar">
+      <button class="tape small" id="btn-rebuild-back">← Map</button>
+      <h2 class="hand" id="rebuild-title">Rebuild</h2>
+      <div class="topbar-right">
+        <button class="tape small" id="btn-rotate" title="Turn the picked-up bone (R)"><svg class="ic"><use href="#i-rotate"/></svg> Turn</button>
+        <button class="tape small" id="btn-hint">Hint</button>
+        <button class="tag tag-small tag-rust" id="btn-rebuild-done"><span>To the museum</span></button>
+      </div>
+    </header>
+    <div class="rebuild-wrap" id="rebuild-wrap">
+      <canvas id="rebuild-canvas" aria-label="Workbench: drag bones onto the outline"></canvas>
+      <p class="rebuild-status" id="rebuild-status" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- ======================= MUSEUM ======================= -->
+  <section id="screen-museum" class="screen" aria-label="Your museum">
+    <header class="topbar">
+      <button class="tape small" data-go="cover">← Journal</button>
+      <h2 class="hand" id="museum-title">My museum</h2>
+      <div class="topbar-right">
+        <span class="star-count"><svg class="ic"><use href="#i-star"/></svg> <b id="museum-stars">0</b></span>
+        <button class="tape small" id="btn-curator">Decorate</button>
+        <button class="tape small" data-go="map">Map</button>
+      </div>
+    </header>
+    <div class="museum-wrap" id="museum-wrap">
+      <canvas id="museum-canvas" aria-label="Museum hall. Drag or use the arrow keys to walk along. Click a skeleton to read about it."></canvas>
+      <button class="museum-arrow left" id="museum-left" aria-label="Walk left">‹</button>
+      <button class="museum-arrow right" id="museum-right" aria-label="Walk right">›</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ======================= MODALS ======================= -->
+<div class="modal-back" id="modal-back" hidden>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-x" id="modal-x" aria-label="Close"><svg class="ic"><use href="#i-close"/></svg></button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+<div class="flash" id="flash" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<noscript><p class="noscript">Fossil Fixers needs JavaScript turned on.</p></noscript>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

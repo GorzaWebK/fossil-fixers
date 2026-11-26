@@ -1,0 +1,25 @@
+{
+  "_help": "Tools in the leather roll. kind: dig | tap | scan | probe. pattern: single | plus | row3 | square3. damage hits the centre cell, sideDamage the others in the pattern. affects: rock tags the tool works on ([] = every breakable rock). cracks: none | overshoot (cracks a bone if the hit is stronger than the rock left on it) | area (cracks every bone in the 3x3 around the hit). charges: uses per dig (scan/probe only). region: where you get it.",
+  "tools": [
+    { "id": "brush",   "name": "Brush",       "key": "1", "letter": "B", "kind": "dig",  "cost": 2, "pattern": "single",  "damage": 1, "sideDamage": 0, "affects": [], "cracks": "none",      "region": "desert",
+      "blurb": "Slow but totally safe. Sweeps away 1 layer of rock." },
+    { "id": "chisel",  "name": "Chisel",      "key": "2", "letter": "C", "kind": "dig",  "cost": 3, "pattern": "single",  "damage": 3, "sideDamage": 0, "affects": [], "cracks": "overshoot", "region": "desert",
+      "blurb": "Knocks off 3 layers. Cracks a bone if there's less than 3 rock left on it." },
+    { "id": "pickaxe", "name": "Pickaxe",     "key": "3", "letter": "P", "kind": "dig",  "cost": 5, "pattern": "plus",    "damage": 6, "sideDamage": 3, "affects": [], "cracks": "area",      "region": "desert",
+      "blurb": "Fast! Smashes a cross of rock, but cracks any bone right next to the hit." },
+    { "id": "tap",     "name": "Tap hammer",  "key": "4", "letter": "T", "kind": "tap",  "cost": 1, "pattern": "single",  "damage": 0, "sideDamage": 0, "affects": [], "cracks": "none",      "region": "desert",
+      "blurb": "Tap the rock face and listen: hollow = bone here, echo = bone next door, solid = nothing." },
+    { "id": "scanner", "name": "Scanner",     "key": "5", "letter": "S", "kind": "scan", "cost": 0, "pattern": "square5", "damage": 0, "sideDamage": 0, "affects": [], "cracks": "none",      "region": "desert", "charges": 2,
+      "blurb": "Pencils in every bone within 2 squares. Only a few charges per dig." },
+    { "id": "trowel",  "name": "Trowel",      "key": "6", "letter": "W", "kind": "dig",  "cost": 3, "pattern": "row3",    "damage": 1, "sideDamage": 1, "affects": ["soft"], "cracks": "none", "region": "desert",
+      "blurb": "Scrapes a row of 3 squares of soft rock. Safe." },
+    { "id": "spray",   "name": "Spray bottle","key": "7", "letter": "Y", "kind": "dig",  "cost": 4, "pattern": "plus",    "damage": 2, "sideDamage": 2, "affects": ["soft"], "cracks": "none", "region": "sea",
+      "blurb": "Soaks a cross of soft rock so it washes away. Safe." },
+    { "id": "probe",   "name": "Probe rod",   "key": "8", "letter": "R", "kind": "probe","cost": 0, "pattern": "column",  "damage": 0, "sideDamage": 0, "affects": [], "cracks": "none",      "region": "jungle", "charges": 3,
+      "blurb": "Push it down a column: it marks the first bone below." },
+    { "id": "lamp",    "name": "Heat lamp",   "key": "9", "letter": "H", "kind": "dig",  "cost": 5, "pattern": "square3", "damage": 4, "sideDamage": 4, "affects": ["ice"], "cracks": "none",  "region": "tundra",
+      "blurb": "Gently melts a 3x3 patch of ice and frozen ground. Safe." },
+    { "id": "blower",  "name": "Air blower",  "key": "0", "letter": "A", "kind": "dig",  "cost": 3, "pattern": "square3", "damage": 9, "sideDamage": 9, "affects": ["ash"], "cracks": "none",  "region": "volcano",
+      "blurb": "Puffs away a 3x3 patch of volcanic ash. Safe." }
+  ]
+}

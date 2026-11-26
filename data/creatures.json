@@ -1,0 +1,430 @@
+{
+ "_help": "Creatures. Each bone: id, name, type (see js/bones.js), x/y = centre in a 200 x 120 frame (creature faces right, ground at y=112), len/w = size, rot = degrees, p = shape options. card = the fun-fact card (keep facts real and checked).",
+ "creatures": [
+  {
+   "id": "dunehorn",
+   "name": "Dunehorn",
+   "region": "desert",
+   "inspired": "Triceratops",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 168, "y": 58, "len": 44, "w": 30, "rot": 8, "p": { "snout": 0.35, "teeth": false, "beak": true, "crest": "horns", "eye": 0.1 } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 146, "y": 52, "len": 18, "w": 12, "rot": 10, "p": { "bend": 0.1 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 110, "y": 42, "len": 44, "w": 12, "rot": 0, "p": { "sail": 0.2 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 111, "y": 59, "len": 40, "w": 24, "rot": 0 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 78, "y": 50, "len": 26, "w": 18, "rot": -4 },
+    { "id": "shoulder", "name": "Shoulder blade", "type": "shoulder", "x": 138, "y": 60, "len": 20, "w": 11, "rot": 70 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 53, "y": 55, "len": 30, "w": 11, "rot": 10 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 24, "y": 63, "len": 30, "w": 8, "rot": 20, "p": { "thin": 0.3 } },
+    { "id": "femur", "name": "Back leg", "type": "limb", "x": 80, "y": 76, "len": 24, "w": 9, "rot": 85 },
+    { "id": "shin", "name": "Back shin", "type": "limb", "x": 82, "y": 97, "len": 20, "w": 8, "rot": 95 },
+    { "id": "arm", "name": "Front leg", "type": "limb", "x": 140, "y": 82, "len": 22, "w": 9, "rot": 90 },
+    { "id": "feet", "name": "Back foot", "type": "foot", "x": 87, "y": 109, "len": 15, "w": 8, "rot": 0, "p": { "toes": 4 } },
+    { "id": "hand", "name": "Front foot", "type": "foot", "x": 145, "y": 109, "len": 13, "w": 8, "rot": 0, "p": { "toes": 4 } }
+   ],
+   "card": {
+    "period": "Late Cretaceous, about 68 to 66 million years ago",
+    "place": "Western North America",
+    "size": "About 8 to 9 metres long",
+    "diet": "Plants",
+    "fact": "Triceratops had one of the biggest skulls of any land animal ever. Some skulls are more than 2 metres long, frill included.",
+    "fact2": "Its name means \"three-horned face\": two long horns over the eyes and a short one on the nose."
+   }
+  },
+  {
+   "id": "rattlerunner",
+   "name": "Rattle Runner",
+   "region": "desert",
+   "inspired": "Velociraptor",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 150.4, "y": 44, "len": 24, "w": 11, "rot": 4, "p": { "snout": 0.75, "teeth": true, "crest": "none", "eye": 0.13 } },
+    { "id": "jaw", "name": "Lower jaw", "type": "jaw", "x": 151.2, "y": 52.8, "len": 21, "w": 6, "rot": 6, "p": { "teeth": true } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 132, "y": 54.4, "len": 18, "w": 8, "rot": -42, "p": { "bend": 0.2 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 110.4, "y": 60, "len": 27, "w": 10, "rot": -6, "p": { "sail": 0.35 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 111.2, "y": 72, "len": 24, "w": 18, "rot": -4 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 91.2, "y": 65.6, "len": 19, "w": 14, "rot": 0 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 69.6, "y": 64.8, "len": 26, "w": 9, "rot": 4 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 43.199999999999996, "y": 68.8, "len": 29, "w": 6, "rot": 12, "p": { "thin": 0.25 } },
+    { "id": "arm", "name": "Arm and claws", "type": "hand", "x": 130.4, "y": 75.19999999999999, "len": 16, "w": 6, "rot": 55, "p": { "fingers": 3 } },
+    { "id": "femur", "name": "Thigh bone", "type": "limb", "x": 93.6, "y": 81.6, "len": 21, "w": 6, "rot": 70 },
+    { "id": "shin", "name": "Shin bone", "type": "limb", "x": 98.4, "y": 98.4, "len": 21, "w": 6, "rot": 105 },
+    { "id": "foot", "name": "Foot", "type": "foot", "x": 104.8, "y": 108.8, "len": 14, "w": 7, "rot": 0, "p": { "toes": 3 } }
+   ],
+   "card": {
+    "period": "Late Cretaceous, about 75 to 71 million years ago",
+    "place": "Mongolia and China",
+    "size": "About 2 metres long, nose to tail (turkey-sized)",
+    "diet": "Meat",
+    "fact": "Velociraptor was only about as big as a turkey, not as big as a person like in films.",
+    "fact2": "A Velociraptor arm bone has \"quill knobs\", bumps where feathers were attached, so we know it had feathers."
+   }
+  },
+  {
+   "id": "sunplate",
+   "name": "Sunplate",
+   "region": "desert",
+   "inspired": "Stegosaurus",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 166, "y": 76, "len": 22, "w": 12, "rot": 20, "p": { "snout": 0.6, "teeth": false, "beak": true, "crest": "none", "eye": 0.1 } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 150, "y": 64, "len": 18, "w": 12, "rot": 30, "p": { "bend": 0.1 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 110, "y": 42, "len": 44, "w": 12, "rot": 0, "p": { "sail": 0.1 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 111, "y": 59, "len": 40, "w": 24, "rot": 0 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 78, "y": 50, "len": 26, "w": 18, "rot": -4 },
+    { "id": "shoulder", "name": "Shoulder blade", "type": "shoulder", "x": 138, "y": 60, "len": 20, "w": 11, "rot": 70 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 53, "y": 55, "len": 30, "w": 11, "rot": 10 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 24, "y": 63, "len": 30, "w": 8, "rot": 20, "p": { "thin": 0.3 } },
+    { "id": "femur", "name": "Back leg", "type": "limb", "x": 80, "y": 76, "len": 24, "w": 9, "rot": 85 },
+    { "id": "shin", "name": "Back shin", "type": "limb", "x": 82, "y": 97, "len": 20, "w": 8, "rot": 95 },
+    { "id": "arm", "name": "Front leg", "type": "limb", "x": 140, "y": 82, "len": 22, "w": 9, "rot": 90 },
+    { "id": "feet", "name": "Back foot", "type": "foot", "x": 87, "y": 109, "len": 15, "w": 8, "rot": 0, "p": { "toes": 4 } },
+    { "id": "hand", "name": "Front foot", "type": "foot", "x": 145, "y": 109, "len": 13, "w": 8, "rot": 0, "p": { "toes": 4 } },
+    { "id": "plates", "name": "Back plates", "type": "plate", "x": 104, "y": 22, "len": 26, "w": 22, "rot": 0 },
+    { "id": "spikes", "name": "Tail spikes", "type": "spikes", "x": 18, "y": 52, "len": 22, "w": 14, "rot": 30, "p": { "n": 2 } }
+   ],
+   "card": {
+    "period": "Late Jurassic, about 155 to 145 million years ago",
+    "place": "North America and Portugal",
+    "size": "About 9 metres long",
+    "diet": "Plants",
+    "fact": "Tyrannosaurus rex lived closer in time to us than to Stegosaurus! Over 80 million years separate the two.",
+    "fact2": "The spikes on its tail are nicknamed the \"thagomizer\", a word that started as a joke in a cartoon."
+   }
+  },
+  {
+   "id": "gullwing",
+   "name": "Gullwing",
+   "region": "sea",
+   "inspired": "Pteranodon",
+   "bones": [
+    { "id": "skull", "name": "Skull and crest", "type": "skull", "x": 160, "y": 30, "len": 46, "w": 12, "rot": 6, "p": { "snout": 1, "crest": "blade", "beak": true, "eye": 0.16, "window": false } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 128, "y": 42, "len": 20, "w": 9, "rot": -30, "p": { "bend": 0.1 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 102, "y": 52, "len": 22, "w": 10, "rot": 6, "p": { "sail": 0.1 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 102, "y": 63, "len": 20, "w": 14, "rot": 6, "p": { "n": 4 } },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 82, "y": 60, "len": 16, "w": 12, "rot": 0 },
+    {
+     "id": "armL",
+     "name": "Wing arm",
+     "type": "limb",
+     "x": 112,
+     "y": 76,
+     "len": 26,
+     "w": 7,
+     "rot": 70
+    },
+    { "id": "wing1", "name": "Wing finger", "type": "wing", "x": 98, "y": 44, "len": 56, "w": 8, "rot": 223 },
+    { "id": "wing2", "name": "Wing finger tip", "type": "wing", "x": 56, "y": 17, "len": 38, "w": 6, "rot": 200 },
+    { "id": "femur", "name": "Leg", "type": "limb", "x": 80, "y": 82, "len": 26, "w": 6, "rot": 85 },
+    { "id": "foot", "name": "Foot", "type": "foot", "x": 86, "y": 104, "len": 14, "w": 7, "rot": 0, "p": { "toes": 4 } }
+   ],
+   "card": {
+    "period": "Late Cretaceous, about 86 to 84 million years ago",
+    "place": "Kansas, USA (then under a shallow sea)",
+    "size": "Wings up to about 6 metres across",
+    "diet": "Fish",
+    "fact": "Pteranodon was not a dinosaur! It was a pterosaur, a flying reptile that lived at the same time as dinosaurs.",
+    "fact2": "Its name means \"wing without teeth\". It had a toothless beak, a bit like a pelican."
+   }
+  },
+  {
+   "id": "cliffpaddle",
+   "name": "Cliff Paddler",
+   "region": "sea",
+   "inspired": "Plesiosaurus",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 186, "y": 26, "len": 16, "w": 10, "rot": 0, "p": { "snout": 0.6, "teeth": true, "eye": 0.15 } },
+    { "id": "neck1", "name": "Neck (front)", "type": "neck", "x": 160, "y": 32, "len": 32, "w": 8, "rot": -12, "p": { "bend": 0.1 } },
+    { "id": "neck2", "name": "Neck (base)", "type": "neck", "x": 130, "y": 42, "len": 30, "w": 10, "rot": -26, "p": { "bend": 0.1 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 98, "y": 52, "len": 38, "w": 11, "rot": 0, "p": { "sail": 0.15 } },
+    { "id": "ribs", "name": "Belly ribs", "type": "ribs", "x": 98, "y": 66, "len": 36, "w": 18, "rot": 0 },
+    { "id": "frontflip", "name": "Front flipper", "type": "flipper", "x": 120, "y": 86, "len": 34, "w": 13, "rot": 30 },
+    { "id": "backflip", "name": "Back flipper", "type": "flipper", "x": 74, "y": 86, "len": 30, "w": 12, "rot": 40 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 72, "y": 60, "len": 18, "w": 14, "rot": 0 },
+    { "id": "tail", "name": "Tail", "type": "tail", "x": 40, "y": 60, "len": 38, "w": 8, "rot": 6, "p": { "thin": 0.25 } }
+   ],
+   "card": {
+    "period": "Early Jurassic, about 199 to 190 million years ago",
+    "place": "England",
+    "size": "About 3 to 4 metres long",
+    "diet": "Fish and squid-like animals",
+    "fact": "Mary Anning, a fossil hunter from Lyme Regis in England, found one of the first nearly complete plesiosaur skeletons in 1823.",
+    "fact2": "Plesiosaurs were reptiles that breathed air. They swam using four big flippers, like underwater wings."
+   }
+  },
+  {
+   "id": "saucereye",
+   "name": "Saucer-Eye",
+   "region": "sea",
+   "inspired": "Temnodontosaurus (an ichthyosaur)",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 166, "y": 50, "len": 40, "w": 16, "rot": 0, "p": { "snout": 1, "teeth": true, "eye": 0.3, "window": false } },
+    { "id": "jaw", "name": "Lower jaw", "type": "jaw", "x": 168, "y": 60, "len": 36, "w": 6, "rot": 0, "p": { "teeth": true } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 118, "y": 50, "len": 40, "w": 12, "rot": 0, "p": { "sail": 0.1 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 118, "y": 64, "len": 36, "w": 18, "rot": 0 },
+    { "id": "fin", "name": "Back fin", "type": "plate", "x": 112, "y": 30, "len": 22, "w": 16, "rot": 0 },
+    { "id": "frontflip", "name": "Front flipper", "type": "flipper", "x": 132, "y": 84, "len": 26, "w": 11, "rot": 35 },
+    { "id": "backflip", "name": "Back flipper", "type": "flipper", "x": 86, "y": 76, "len": 18, "w": 9, "rot": 35 },
+    { "id": "tail1", "name": "Tail", "type": "tail", "x": 70, "y": 54, "len": 36, "w": 10, "rot": 4 },
+    { "id": "fluke", "name": "Tail fin", "type": "plate", "x": 32, "y": 58, "len": 30, "w": 26, "rot": 270 }
+   ],
+   "card": {
+    "period": "Early Jurassic, about 200 to 175 million years ago",
+    "place": "England and Germany",
+    "size": "About 9 metres long",
+    "diet": "Fish, squid-like animals and other reptiles",
+    "fact": "Ichthyosaurs had some of the biggest eyes of any animal ever. One Temnodontosaurus eye was about 25 cm across, as big as a dinner plate!",
+    "fact2": "Ichthyosaurs were sea reptiles, not dinosaurs. Fossils show they gave birth to live babies in the water."
+   }
+  },
+  {
+   "id": "snapsnout",
+   "name": "Snapsnout",
+   "region": "jungle",
+   "inspired": "Spinosaurus",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 163, "y": 27, "len": 38, "w": 13, "rot": 4, "p": { "snout": 1, "teeth": true, "crest": "none", "eye": 0.13 } },
+    { "id": "jaw", "name": "Lower jaw", "type": "jaw", "x": 164, "y": 38, "len": 33, "w": 7, "rot": 6, "p": { "teeth": true } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 140, "y": 40, "len": 22, "w": 10, "rot": -42, "p": { "bend": 0.2 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 113, "y": 47, "len": 34, "w": 12, "rot": -6, "p": { "sail": 1 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 114, "y": 62, "len": 30, "w": 22, "rot": -4 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 89, "y": 54, "len": 24, "w": 18, "rot": 0 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 62, "y": 53, "len": 32, "w": 11, "rot": 4 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 29, "y": 58, "len": 36, "w": 8, "rot": 12, "p": { "thin": 0.25 } },
+    { "id": "arm", "name": "Arm and claws", "type": "hand", "x": 138, "y": 66, "len": 18, "w": 8, "rot": 55, "p": { "fingers": 3 } },
+    { "id": "femur", "name": "Thigh bone", "type": "limb", "x": 92, "y": 74, "len": 26, "w": 8, "rot": 70 },
+    { "id": "shin", "name": "Shin bone", "type": "limb", "x": 98, "y": 95, "len": 26, "w": 7, "rot": 105 },
+    { "id": "foot", "name": "Foot", "type": "foot", "x": 106, "y": 108, "len": 18, "w": 9, "rot": 0, "p": { "toes": 3 } }
+   ],
+   "card": {
+    "period": "Middle Cretaceous, about 99 to 94 million years ago",
+    "place": "North Africa",
+    "size": "About 14 metres long",
+    "diet": "Mostly fish",
+    "fact": "Spinosaurus had long, narrow jaws and cone-shaped teeth, a lot like a crocodile, which is good for grabbing slippery fish.",
+    "fact2": "The spines on its back could be more than 1.5 metres tall, holding up a huge sail."
+   }
+  },
+  {
+   "id": "treetop",
+   "name": "Treetop Titan",
+   "region": "jungle",
+   "inspired": "Brachiosaurus",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 180, "y": 12, "len": 18, "w": 11, "rot": 10, "p": { "snout": 0.2, "teeth": true, "eye": 0.15 } },
+    { "id": "neck1", "name": "Neck (top)", "type": "neck", "x": 168, "y": 28, "len": 26, "w": 9, "rot": -62, "p": { "bend": 0.1 } },
+    { "id": "neck2", "name": "Neck (base)", "type": "neck", "x": 150, "y": 46, "len": 26, "w": 11, "rot": -45, "p": { "bend": 0.1 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 112, "y": 54, "len": 40, "w": 12, "rot": 12, "p": { "sail": 0.2 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 114, "y": 70, "len": 38, "w": 22, "rot": 10 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 80, "y": 62, "len": 24, "w": 17, "rot": 6 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 55, "y": 70, "len": 30, "w": 11, "rot": 18 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 24, "y": 84, "len": 36, "w": 7, "rot": 26, "p": { "thin": 0.25 } },
+    { "id": "femur", "name": "Back leg", "type": "limb", "x": 82, "y": 86, "len": 22, "w": 9, "rot": 90 },
+    { "id": "shin", "name": "Back shin", "type": "limb", "x": 84, "y": 104, "len": 14, "w": 8, "rot": 90 },
+    { "id": "arm", "name": "Front leg", "type": "limb", "x": 138, "y": 84, "len": 32, "w": 9, "rot": 88 },
+    { "id": "feet", "name": "Front foot", "type": "foot", "x": 142, "y": 108, "len": 14, "w": 8, "rot": 0, "p": { "toes": 4 } }
+   ],
+   "card": {
+    "period": "Late Jurassic, about 154 to 150 million years ago",
+    "place": "North America",
+    "size": "About 18 to 22 metres long",
+    "diet": "Plants",
+    "fact": "Brachiosaurus had front legs longer than its back legs, so its back sloped down like a giraffe.",
+    "fact2": "It could reach leaves about 9 metres off the ground, as high as a three-storey building."
+   }
+  },
+  {
+   "id": "trumpetcrest",
+   "name": "Trumpet Crest",
+   "region": "jungle",
+   "inspired": "Parasaurolophus",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 160, "y": 32, "len": 28, "w": 14, "rot": 10, "p": { "snout": 0.6, "beak": true, "crest": "tube", "eye": 0.14 } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 141, "y": 45, "len": 20, "w": 10, "rot": -38, "p": { "bend": 0.2 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 113, "y": 52, "len": 32, "w": 11, "rot": 4, "p": { "sail": 0.3 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 114, "y": 67, "len": 28, "w": 20, "rot": 4 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 88, "y": 57, "len": 22, "w": 17, "rot": 0 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 62, "y": 57, "len": 30, "w": 10, "rot": 2 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 30, "y": 61, "len": 32, "w": 7, "rot": 6, "p": { "thin": 0.25 } },
+    { "id": "arm", "name": "Arm", "type": "hand", "x": 136, "y": 70, "len": 16, "w": 8, "rot": 60, "p": { "fingers": 3 } },
+    { "id": "femur", "name": "Thigh bone", "type": "limb", "x": 92, "y": 77, "len": 24, "w": 8, "rot": 75 },
+    { "id": "shin", "name": "Shin bone", "type": "limb", "x": 96, "y": 96, "len": 22, "w": 7, "rot": 100 },
+    { "id": "foot", "name": "Foot", "type": "foot", "x": 102, "y": 108, "len": 16, "w": 8, "rot": 0, "p": { "toes": 3 } }
+   ],
+   "card": {
+    "period": "Late Cretaceous, about 76 to 73 million years ago",
+    "place": "North America",
+    "size": "About 9 metres long",
+    "diet": "Plants",
+    "fact": "Parasaurolophus had a long, hollow crest with air tubes inside. Scientists think it could blow air through it to make deep, trumpet-like calls.",
+    "fact2": "It was a \"duck-billed\" dinosaur, with a wide beak and hundreds of grinding teeth further back for chewing plants."
+   }
+  },
+  {
+   "id": "snowcrest",
+   "name": "Snowcrest",
+   "region": "tundra",
+   "inspired": "Cryolophosaurus",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 163, "y": 27, "len": 30, "w": 17, "rot": 4, "p": { "snout": 0.55, "teeth": true, "crest": "fan", "eye": 0.13 } },
+    { "id": "jaw", "name": "Lower jaw", "type": "jaw", "x": 164, "y": 38, "len": 26, "w": 7, "rot": 6, "p": { "teeth": true } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 140, "y": 40, "len": 22, "w": 10, "rot": -42, "p": { "bend": 0.2 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 113, "y": 47, "len": 34, "w": 12, "rot": -6, "p": { "sail": 0.35 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 114, "y": 62, "len": 30, "w": 22, "rot": -4 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 89, "y": 54, "len": 24, "w": 18, "rot": 0 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 62, "y": 53, "len": 32, "w": 11, "rot": 4 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 29, "y": 58, "len": 36, "w": 8, "rot": 12, "p": { "thin": 0.25 } },
+    { "id": "arm", "name": "Arm and claws", "type": "hand", "x": 138, "y": 66, "len": 16, "w": 8, "rot": 55, "p": { "fingers": 3 } },
+    { "id": "femur", "name": "Thigh bone", "type": "limb", "x": 92, "y": 74, "len": 26, "w": 8, "rot": 70 },
+    { "id": "shin", "name": "Shin bone", "type": "limb", "x": 98, "y": 95, "len": 26, "w": 7, "rot": 105 },
+    { "id": "foot", "name": "Foot", "type": "foot", "x": 106, "y": 108, "len": 18, "w": 9, "rot": 0, "p": { "toes": 3 } }
+   ],
+   "card": {
+    "period": "Early Jurassic, about 190 to 183 million years ago",
+    "place": "Antarctica",
+    "size": "About 6 to 7 metres long",
+    "diet": "Meat",
+    "fact": "Cryolophosaurus was found high on a mountain in Antarctica in the early 1990s. Its name means \"frozen crested lizard\".",
+    "fact2": "Its crest ran sideways across its head, like a fan or a comb. Antarctica was much warmer back then, with forests."
+   }
+  },
+  {
+   "id": "lanternlook",
+   "name": "Lantern-Look",
+   "region": "tundra",
+   "inspired": "Leaellynasaura",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 160, "y": 32, "len": 22, "w": 14, "rot": 10, "p": { "snout": 0.3, "beak": true, "crest": "none", "eye": 0.24 } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 141, "y": 45, "len": 20, "w": 10, "rot": -38, "p": { "bend": 0.2 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 113, "y": 52, "len": 32, "w": 11, "rot": 4, "p": { "sail": 0.3 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 114, "y": 67, "len": 28, "w": 20, "rot": 4 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 88, "y": 57, "len": 22, "w": 17, "rot": 0 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 62, "y": 57, "len": 30, "w": 10, "rot": 2 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 22, "y": 61, "len": 46, "w": 7, "rot": 6, "p": { "thin": 0.25 } },
+    { "id": "arm", "name": "Arm", "type": "hand", "x": 136, "y": 70, "len": 16, "w": 8, "rot": 60, "p": { "fingers": 3 } },
+    { "id": "femur", "name": "Thigh bone", "type": "limb", "x": 92, "y": 77, "len": 24, "w": 8, "rot": 75 },
+    { "id": "shin", "name": "Shin bone", "type": "limb", "x": 96, "y": 96, "len": 22, "w": 7, "rot": 100 },
+    { "id": "foot", "name": "Foot", "type": "foot", "x": 102, "y": 108, "len": 16, "w": 8, "rot": 0, "p": { "toes": 3 } }
+   ],
+   "card": {
+    "period": "Early Cretaceous, about 113 to 110 million years ago",
+    "place": "Victoria, Australia",
+    "size": "About 1 to 2 metres long, mostly tail",
+    "diet": "Plants",
+    "fact": "When Leaellynasaura lived, Australia was near the South Pole, with dark winters. Its big eye sockets may have helped it see in the gloom.",
+    "fact2": "It was named after Leaellyn Rich, the daughter of the two scientists who found it. Its tail was about three times as long as its body."
+   }
+  },
+  {
+   "id": "tuskmuzzle",
+   "name": "Lumpnose",
+   "region": "tundra",
+   "inspired": "Pachyrhinosaurus",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 168, "y": 58, "len": 40, "w": 28, "rot": 8, "p": { "snout": 0.35, "teeth": false, "beak": true, "crest": "boss", "eye": 0.1 } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 146, "y": 52, "len": 18, "w": 12, "rot": 10, "p": { "bend": 0.1 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 110, "y": 42, "len": 44, "w": 12, "rot": 0, "p": { "sail": 0.2 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 111, "y": 59, "len": 40, "w": 24, "rot": 0 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 78, "y": 50, "len": 26, "w": 18, "rot": -4 },
+    { "id": "shoulder", "name": "Shoulder blade", "type": "shoulder", "x": 138, "y": 60, "len": 20, "w": 11, "rot": 70 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 53, "y": 55, "len": 30, "w": 11, "rot": 10 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 24, "y": 63, "len": 30, "w": 8, "rot": 20, "p": { "thin": 0.3 } },
+    { "id": "femur", "name": "Back leg", "type": "limb", "x": 80, "y": 76, "len": 24, "w": 9, "rot": 85 },
+    { "id": "shin", "name": "Back shin", "type": "limb", "x": 82, "y": 97, "len": 20, "w": 8, "rot": 95 },
+    { "id": "arm", "name": "Front leg", "type": "limb", "x": 140, "y": 82, "len": 22, "w": 9, "rot": 90 },
+    { "id": "feet", "name": "Back foot", "type": "foot", "x": 87, "y": 109, "len": 15, "w": 8, "rot": 0, "p": { "toes": 4 } },
+    { "id": "hand", "name": "Front foot", "type": "foot", "x": 145, "y": 109, "len": 13, "w": 8, "rot": 0, "p": { "toes": 4 } }
+   ],
+   "card": {
+    "period": "Late Cretaceous, about 73 to 69 million years ago",
+    "place": "Alberta (Canada) and northern Alaska",
+    "size": "About 6 to 8 metres long",
+    "diet": "Plants",
+    "fact": "Instead of a horn on its nose, Pachyrhinosaurus had a big, thick, flat lump of bone called a boss.",
+    "fact2": "Some lived in northern Alaska, far north where winters were dark and snowy, even in dinosaur times."
+   }
+  },
+  {
+   "id": "cinderking",
+   "name": "Cinder King",
+   "region": "volcano",
+   "inspired": "Tyrannosaurus",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 163, "y": 27, "len": 34, "w": 22, "rot": 4, "p": { "snout": 0.35, "teeth": true, "crest": "none", "eye": 0.13 } },
+    { "id": "jaw", "name": "Lower jaw", "type": "jaw", "x": 164, "y": 38, "len": 30, "w": 7, "rot": 6, "p": { "teeth": true } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 140, "y": 40, "len": 22, "w": 10, "rot": -42, "p": { "bend": 0.2 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 113, "y": 47, "len": 34, "w": 12, "rot": -6, "p": { "sail": 0.35 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 114, "y": 62, "len": 30, "w": 22, "rot": -4 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 89, "y": 54, "len": 24, "w": 18, "rot": 0 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 62, "y": 53, "len": 32, "w": 11, "rot": 4 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 29, "y": 58, "len": 36, "w": 8, "rot": 12, "p": { "thin": 0.25 } },
+    { "id": "arm", "name": "Arm and claws", "type": "hand", "x": 138, "y": 66, "len": 10, "w": 8, "rot": 55, "p": { "fingers": 2 } },
+    { "id": "femur", "name": "Thigh bone", "type": "limb", "x": 92, "y": 74, "len": 26, "w": 8, "rot": 70 },
+    { "id": "shin", "name": "Shin bone", "type": "limb", "x": 98, "y": 95, "len": 26, "w": 7, "rot": 105 },
+    { "id": "foot", "name": "Foot", "type": "foot", "x": 106, "y": 108, "len": 18, "w": 9, "rot": 0, "p": { "toes": 3 } }
+   ],
+   "card": {
+    "period": "Late Cretaceous, about 68 to 66 million years ago",
+    "place": "Western North America",
+    "size": "About 12 metres long",
+    "diet": "Meat",
+    "fact": "T. rex had one of the strongest bites of any land animal ever. Its biggest teeth, root included, were about 30 cm long, as long as a ruler.",
+    "fact2": "Its arms were short but strong, each with just two fingers."
+   }
+  },
+  {
+   "id": "ashdome",
+   "name": "Ashdome",
+   "region": "volcano",
+   "inspired": "Pachycephalosaurus",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 160, "y": 32, "len": 24, "w": 18, "rot": 10, "p": { "snout": 0.25, "beak": true, "crest": "dome", "eye": 0.14 } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 141, "y": 45, "len": 20, "w": 10, "rot": -38, "p": { "bend": 0.2 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 113, "y": 52, "len": 32, "w": 11, "rot": 4, "p": { "sail": 0.3 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 114, "y": 67, "len": 28, "w": 20, "rot": 4 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 88, "y": 57, "len": 22, "w": 17, "rot": 0 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 62, "y": 57, "len": 30, "w": 10, "rot": 2 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 30, "y": 61, "len": 32, "w": 7, "rot": 6, "p": { "thin": 0.25 } },
+    { "id": "arm", "name": "Arm", "type": "hand", "x": 136, "y": 70, "len": 16, "w": 8, "rot": 60, "p": { "fingers": 3 } },
+    { "id": "femur", "name": "Thigh bone", "type": "limb", "x": 92, "y": 77, "len": 24, "w": 8, "rot": 75 },
+    { "id": "shin", "name": "Shin bone", "type": "limb", "x": 96, "y": 96, "len": 22, "w": 7, "rot": 100 },
+    { "id": "foot", "name": "Foot", "type": "foot", "x": 102, "y": 108, "len": 16, "w": 8, "rot": 0, "p": { "toes": 3 } }
+   ],
+   "card": {
+    "period": "Late Cretaceous, about 70 to 66 million years ago",
+    "place": "Western North America",
+    "size": "About 4.5 metres long",
+    "diet": "Mostly plants",
+    "fact": "Pachycephalosaurus had a dome-shaped skull roof up to about 25 cm thick. Its name means \"thick-headed lizard\".",
+    "fact2": "Bumps and little spikes grew around the back of its dome."
+   }
+  },
+  {
+   "id": "emberclub",
+   "name": "Emberclub",
+   "region": "volcano",
+   "inspired": "Ankylosaurus",
+   "bones": [
+    { "id": "skull", "name": "Skull", "type": "skull", "x": 168, "y": 58, "len": 30, "w": 20, "rot": 8, "p": { "snout": 0.3, "teeth": false, "beak": true, "crest": "spikes", "eye": 0.1 } },
+    { "id": "neck", "name": "Neck", "type": "neck", "x": 146, "y": 52, "len": 18, "w": 12, "rot": 10, "p": { "bend": 0.1 } },
+    { "id": "back", "name": "Backbone", "type": "spine", "x": 110, "y": 42, "len": 44, "w": 12, "rot": 0, "p": { "sail": 0.05 } },
+    { "id": "ribs", "name": "Ribs", "type": "ribs", "x": 111, "y": 59, "len": 40, "w": 24, "rot": 0 },
+    { "id": "hip", "name": "Hip bone", "type": "hip", "x": 78, "y": 50, "len": 26, "w": 18, "rot": -4 },
+    { "id": "tail1", "name": "Tail (front)", "type": "tail", "x": 53, "y": 55, "len": 30, "w": 11, "rot": 10 },
+    { "id": "tail2", "name": "Tail (tip)", "type": "tail", "x": 24, "y": 63, "len": 30, "w": 8, "rot": 20, "p": { "thin": 0.3 } },
+    { "id": "femur", "name": "Back leg", "type": "limb", "x": 80, "y": 76, "len": 24, "w": 9, "rot": 85 },
+    { "id": "shin", "name": "Back shin", "type": "limb", "x": 82, "y": 97, "len": 20, "w": 8, "rot": 95 },
+    { "id": "arm", "name": "Front leg", "type": "limb", "x": 140, "y": 82, "len": 22, "w": 9, "rot": 90 },
+    { "id": "feet", "name": "Back foot", "type": "foot", "x": 87, "y": 109, "len": 15, "w": 8, "rot": 0, "p": { "toes": 4 } },
+    { "id": "hand", "name": "Front foot", "type": "foot", "x": 145, "y": 109, "len": 13, "w": 8, "rot": 0, "p": { "toes": 4 } },
+    { "id": "armour", "name": "Back armour", "type": "spikes", "x": 110, "y": 26, "len": 40, "w": 12, "rot": 0, "p": { "n": 5 } },
+    { "id": "club", "name": "Tail club", "type": "club", "x": 10, "y": 70, "len": 18, "w": 14, "rot": 200 }
+   ],
+   "card": {
+    "period": "Late Cretaceous, about 68 to 66 million years ago",
+    "place": "Western North America",
+    "size": "About 6 to 8 metres long",
+    "diet": "Plants",
+    "fact": "Ankylosaurus was covered in bony plates set in its skin, called osteoderms, like a suit of armour.",
+    "fact2": "Its tail ended in a heavy club made of bone, which it could swing from side to side."
+   }
+  }
+ ]
+}
