@@ -108,11 +108,11 @@ It fails on any console error or any request to another website.
 
 ## Deploying to GitHub Pages
 
-`.github/workflows/deploy.yml` runs both test suites and then publishes the game on every push to `main`. It only publishes `index.html`, `css/`, `js/`, `data/` and `fonts/`.
+The game is live at **https://gorzawebk.github.io/fossil-fixers/**.
 
-One-time setup: in the repo go to **Settings → Pages → Build and deployment → Source: GitHub Actions**. The game will be at `https://gorzawebk.github.io/fossil-fixers/`.
+`.github/workflows/deploy.yml` runs on every push to `main`. It runs the logic tests, then copies the static files (`index.html`, `css/`, `js/`, `data/`, `fonts/`) to the **`gh-pages`** branch, which GitHub Pages serves. Updates appear a minute or two after the push. The browser test runs alongside it as a separate check, so a slow CI browser can't hold up a release.
 
-Without Actions you can also publish by hand: Settings → Pages → *Deploy from a branch* → `main` / root. Every file is already static.
+Pages settings (already set up): **Settings → Pages → Source: Deploy from a branch → `gh-pages` / root**.
 
 **Brain Break Lab:** the game works inside an iframe. The *Back to Brain Break Lab* links use `target="_top"` so they leave the frame. There's an empty `<div class="ad-safe">` on the cover and the map: it's space kept free and holds no ad code. Add `debug-ads` to `<body>` to see it outlined.
 
