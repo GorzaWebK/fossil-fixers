@@ -198,7 +198,7 @@ export const isOpen = (site, i) => site.cells[i].hp <= 0;
 /** Can you work this cell? (Top row, or next to an open cell, and not already open.) */
 export function isWorkable(site, i) {
   const cell = site.cells[i];
-  if (cell.hp <= 0) return false;
+  if (cell.hp <= 0 || !Number.isFinite(cell.hp)) return false;
   if (rowOf(site, i) === 0) return true;
   return neighbours4(site, i).some((n) => site.cells[n].hp <= 0);
 }
@@ -293,7 +293,7 @@ export function useTool(site, tool, rocks, i) {
   }
 
   if (!isWorkable(site, i)) {
-    return { ...ev, reason: cell.hp <= 0 ? 'Already dug out.' : !Number.isFinite(cell.hp) ? "That's bedrock: too hard to dig." : 'Dig down to it first: you can only work rock next to an open space.' };
+    return { ...ev, reason: cell.hp <= 0 ? 'Already dug out.' : !Number.isFinite(cell.hp) ? "That's bedrock: far too hard to dig." : 'Dig down to it first: you can only work rock next to an open space.' };
   }
 
   if (tool.kind === 'tap') {

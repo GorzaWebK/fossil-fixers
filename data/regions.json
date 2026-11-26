@@ -9,13 +9,13 @@
       "bedrock": "redbed", "inclusions": [ { "rock": "ironstone", "in": "sandstone", "chance": 0.05 } ], "boulders": 1,
       "creatures": ["dunehorn", "rattlerunner", "sunplate"],
       "sites": [
-        { "id": "desert-1", "name": "Horned Hollow", "creature": "dunehorn", "cols": 12, "rows": 10, "slack": 1.8, "concretions": 2, "scanner": 3, "map": { "x": 13, "y": 83 },
+        { "id": "desert-1", "name": "Horned Hollow", "creature": "dunehorn", "cols": 12, "rows": 10, "slack": 2.0, "concretions": 2, "scanner": 3, "map": { "x": 13, "y": 83 },
           "note": "A farmer spotted a horn sticking out of a gully. Start here!" },
-        { "id": "desert-2", "name": "Quick Claw Gully", "creature": "rattlerunner", "cols": 14, "rows": 11, "slack": 1.65, "concretions": 3, "scanner": 2, "map": { "x": 19, "y": 84.5 },
+        { "id": "desert-2", "name": "Quick Claw Gully", "creature": "rattlerunner", "cols": 14, "rows": 11, "slack": 1.75, "concretions": 3, "scanner": 2, "map": { "x": 19, "y": 84.5 },
           "note": "Tiny, light bones. Brush gently!" },
-        { "id": "desert-3", "name": "Plate Mesa", "creature": "sunplate", "cols": 14, "rows": 11, "slack": 1.6, "concretions": 3, "scanner": 2, "map": { "x": 25, "y": 83 },
+        { "id": "desert-3", "name": "Plate Mesa", "creature": "sunplate", "cols": 14, "rows": 11, "slack": 1.7, "concretions": 3, "scanner": 2, "map": { "x": 25, "y": 83 },
           "note": "Something with big flat plates is buried up on the mesa." },
-        { "id": "desert-4", "name": "Badlands Bonebed", "creature": "bonebed", "bonesPerCreature": 4, "cols": 15, "rows": 12, "slack": 1.55, "concretions": 4, "scanner": 2, "map": { "x": 31, "y": 84.5 },
+        { "id": "desert-4", "name": "Badlands Bonebed", "creature": "bonebed", "bonesPerCreature": 4, "cols": 15, "rows": 12, "slack": 1.65, "concretions": 4, "scanner": 2, "map": { "x": 31, "y": 84.5 },
           "note": "A jumble of bones from all over the badlands. Fill the gaps in your collection." }
       ]
     },
@@ -31,7 +31,7 @@
           "note": "Long, thin, hollow bones. Something that flew!" },
         { "id": "sea-2", "name": "Anning's Ledge", "creature": "cliffpaddle", "cols": 14, "rows": 11, "slack": 1.55, "concretions": 3, "scanner": 2, "map": { "x": 67, "y": 92.5 },
           "note": "Paddle-shaped bones in the blue clay." },
-        { "id": "sea-3", "name": "Saucer Cove", "creature": "saucereye", "cols": 14, "rows": 11, "slack": 1.5, "concretions": 4, "scanner": 2, "map": { "x": 73, "y": 91 },
+        { "id": "sea-3", "name": "Saucer Cove", "creature": "saucereye", "cols": 14, "rows": 11, "slack": 1.55, "concretions": 4, "scanner": 2, "map": { "x": 73, "y": 91 },
           "note": "Someone found a ring of eye bones as big as a plate." },
         { "id": "sea-4", "name": "Chalk Bonebed", "creature": "bonebed", "bonesPerCreature": 4, "cols": 15, "rows": 12, "slack": 1.5, "concretions": 4, "scanner": 2, "map": { "x": 79, "y": 92.5 },
           "note": "A storm washed out part of the cliff. Bones everywhere!" }
@@ -45,13 +45,13 @@
       "bedrock": "jungbed", "inclusions": [ { "rock": "roots", "in": "mud", "chance": 0.12 }, { "rock": "roots", "in": "silt", "chance": 0.05 } ], "boulders": 1,
       "creatures": ["snapsnout", "treetop", "trumpetcrest"],
       "sites": [
-        { "id": "jungle-1", "name": "Sail Bend", "creature": "snapsnout", "cols": 14, "rows": 11, "slack": 1.5, "concretions": 3, "scanner": 2, "map": { "x": 37, "y": 67 },
+        { "id": "jungle-1", "name": "Sail Bend", "creature": "snapsnout", "cols": 14, "rows": 11, "slack": 1.6, "concretions": 3, "scanner": 2, "map": { "x": 37, "y": 67 },
           "note": "Tall back spines poking out of a mud bank." },
-        { "id": "jungle-2", "name": "Giant's Ford", "creature": "treetop", "cols": 14, "rows": 11, "slack": 1.5, "concretions": 3, "scanner": 2, "map": { "x": 43, "y": 68.5 },
+        { "id": "jungle-2", "name": "Giant's Ford", "creature": "treetop", "cols": 14, "rows": 11, "slack": 1.55, "concretions": 3, "scanner": 2, "map": { "x": 43, "y": 68.5 },
           "note": "The neck bones here are enormous." },
-        { "id": "jungle-3", "name": "Trumpet Pool", "creature": "trumpetcrest", "cols": 14, "rows": 11, "slack": 1.45, "concretions": 4, "scanner": 2, "map": { "x": 49, "y": 67 },
+        { "id": "jungle-3", "name": "Trumpet Pool", "creature": "trumpetcrest", "cols": 14, "rows": 11, "slack": 1.55, "concretions": 4, "scanner": 2, "map": { "x": 49, "y": 67 },
           "note": "A curved, hollow crest was seen in the shallows." },
-        { "id": "jungle-4", "name": "Riverbed Bonebed", "creature": "bonebed", "bonesPerCreature": 4, "cols": 15, "rows": 12, "slack": 1.45, "concretions": 5, "scanner": 2, "map": { "x": 55, "y": 68.5 },
+        { "id": "jungle-4", "name": "Riverbed Bonebed", "creature": "bonebed", "bonesPerCreature": 4, "cols": 15, "rows": 12, "slack": 1.5, "concretions": 5, "scanner": 2, "map": { "x": 55, "y": 68.5 },
           "note": "The river piled bones up on this bend for millions of years." }
       ]
     },
@@ -63,11 +63,11 @@
       "bedrock": "granite", "inclusions": [ { "rock": "ice", "in": "permafrost", "chance": 0.06 } ], "boulders": 2,
       "creatures": ["snowcrest", "lanternlook", "tuskmuzzle"],
       "sites": [
-        { "id": "tundra-1", "name": "Crest Ridge", "creature": "snowcrest", "cols": 14, "rows": 11, "slack": 1.45, "concretions": 3, "scanner": 2, "map": { "x": 41, "y": 33 },
+        { "id": "tundra-1", "name": "Crest Ridge", "creature": "snowcrest", "cols": 14, "rows": 11, "slack": 1.5, "concretions": 3, "scanner": 2, "map": { "x": 41, "y": 33 },
           "note": "A fan-shaped crest frozen in the ice." },
         { "id": "tundra-2", "name": "Long Night Camp", "creature": "lanternlook", "cols": 14, "rows": 11, "slack": 1.45, "concretions": 4, "scanner": 2, "map": { "x": 47, "y": 34.5 },
           "note": "Huge eye sockets and a very long tail." },
-        { "id": "tundra-3", "name": "Lump Hill", "creature": "tuskmuzzle", "cols": 14, "rows": 11, "slack": 1.4, "concretions": 4, "scanner": 2, "map": { "x": 53, "y": 33 },
+        { "id": "tundra-3", "name": "Lump Hill", "creature": "tuskmuzzle", "cols": 14, "rows": 11, "slack": 1.45, "concretions": 4, "scanner": 2, "map": { "x": 53, "y": 33 },
           "note": "A skull with a big bony lump on the nose." },
         { "id": "tundra-4", "name": "Permafrost Bonebed", "creature": "bonebed", "bonesPerCreature": 4, "cols": 15, "rows": 12, "slack": 1.4, "concretions": 5, "scanner": 2, "map": { "x": 59, "y": 34.5 },
           "note": "The thaw has opened a crack full of old bones." }
@@ -81,13 +81,13 @@
       "bedrock": "obsidian", "inclusions": [ { "rock": "basalt", "in": "tuff", "chance": 0.07 } ], "boulders": 2,
       "creatures": ["cinderking", "ashdome", "emberclub"],
       "sites": [
-        { "id": "volcano-1", "name": "King's Crater", "creature": "cinderking", "cols": 14, "rows": 11, "slack": 1.4, "concretions": 4, "scanner": 2, "map": { "x": 73, "y": 53 },
+        { "id": "volcano-1", "name": "King's Crater", "creature": "cinderking", "cols": 14, "rows": 11, "slack": 1.5, "concretions": 4, "scanner": 2, "map": { "x": 73, "y": 53 },
           "note": "Teeth as long as a ruler!" },
-        { "id": "volcano-2", "name": "Dome Rock", "creature": "ashdome", "cols": 14, "rows": 11, "slack": 1.4, "concretions": 4, "scanner": 2, "map": { "x": 79, "y": 54.5 },
+        { "id": "volcano-2", "name": "Dome Rock", "creature": "ashdome", "cols": 14, "rows": 11, "slack": 1.5, "concretions": 4, "scanner": 2, "map": { "x": 79, "y": 54.5 },
           "note": "A very thick, round skull in the ash." },
-        { "id": "volcano-3", "name": "Armour Slope", "creature": "emberclub", "cols": 14, "rows": 11, "slack": 1.35, "concretions": 4, "scanner": 2, "map": { "x": 85, "y": 53 },
+        { "id": "volcano-3", "name": "Armour Slope", "creature": "emberclub", "cols": 14, "rows": 11, "slack": 1.45, "concretions": 4, "scanner": 2, "map": { "x": 85, "y": 53 },
           "note": "Bony armour plates and a tail club." },
-        { "id": "volcano-4", "name": "Ashfall Bonebed", "creature": "bonebed", "bonesPerCreature": 4, "cols": 15, "rows": 12, "slack": 1.35, "concretions": 5, "scanner": 2, "map": { "x": 91, "y": 54.5 },
+        { "id": "volcano-4", "name": "Ashfall Bonebed", "creature": "bonebed", "bonesPerCreature": 4, "cols": 15, "rows": 12, "slack": 1.45, "concretions": 5, "scanner": 2, "map": { "x": 91, "y": 54.5 },
           "note": "One big ashfall buried a whole herd's worth of bones." }
       ]
     }
