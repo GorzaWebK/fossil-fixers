@@ -74,7 +74,7 @@ export class MuseumView {
     this.ch = r.height;
     this.canvas.width = Math.round(r.width * dpr);
     this.canvas.height = Math.round(r.height * dpr);
-    this.u = Math.min(r.height / 100, r.width / 80);
+    this.u = Math.min(r.height / 100, r.width / 66);
     this.layout();
     this.scroll = this.clamp(this.scroll);
   }
@@ -458,8 +458,8 @@ export class MuseumView {
         }
       }
       if (v.x < this.scroll - 20 * u || v.x > this.scroll + this.cw + 20 * u) continue;
-      const s = v.size * u * (0.9 + v.lane * 0.25);
-      const fy = floorY + 18 * u + v.lane * (H - floorY - 22 * u);
+      const s = v.size * u * 0.42 * (0.9 + v.lane * 0.25);
+      const fy = floorY + 20 * u + v.lane * Math.max(2 * u, H - floorY - 24 * u);
       const walk = v.pause > 0 || this.reduced ? 0 : Math.sin(v.phase);
       ctx.save();
       ctx.translate(v.x, fy);

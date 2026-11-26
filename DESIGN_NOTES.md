@@ -85,3 +85,17 @@ I cloned every repo on **GorzaWebK** and **GorzaWebA** (the ten you listed, plus
   - Stars unlock regions (0 / 4 / 10 / 16 / 22) and museum cosmetics.
 - **Replays** use a new seed. Pristine finds replace cracked ones. The fourth site in each region is a **bonebed** that favours the bones you're missing.
 - **Daily Dig:** seeded from the UTC date (`FF-daily-YYYY-MM-DD`), so everyone gets the same site. The "Curator's mark" to beat is 80% of the solver's perfect score. Your best and your daily streak are saved.
+
+## 6. Balance check (clue-reading bot)
+
+`tools/cluebot.mjs` digs using only what a player can see. It never swings the pickaxe within one square of a bump, tap mark, scanner mark or uncovered bone, it taps bumps to tell bones from concretions, and it explores otherwise. It uses no gadgets. With the energy slack in `data/regions.json`:
+
+| Region | Bones found | Whole digs completed |
+| --- | --- | --- |
+| Desert Badlands | 100% | every time |
+| Sea Cliffs | 94–98% | about half |
+| Jungle Riverbed | 91–100% | about half |
+| Frozen Tundra | 92–98% | about half |
+| Volcano Ridge | 91–100% | about half |
+
+It cracks **zero** bones in every run. Careful reading always beats luck, and the pickaxe rule ("bumps nearby? put the pickaxe away") is exact: bumps show within 2 squares of open rock, which covers the pickaxe's whole crack zone. The gadgets, the bonebeds and fresh-layout replays give players room to finish what they miss. `npm test` keeps the bot at 90% or better with no cracks, so later data edits can't make digs unfair by accident.

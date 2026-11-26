@@ -127,7 +127,8 @@ export class DigView {
     if (tool && !e.ctrlKey && !e.metaKey && !e.altKey) { this.selectTool(tool.id); return true; }
     const moves = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] };
     if (moves[k]) {
-      if (this.cursor < 0) this.cursor = Math.floor(this.site.cols / 2);
+      // the first press just shows the cursor, in the middle of the surface
+      if (this.cursor < 0) { this.cursor = Math.floor(this.site.cols / 2); return true; }
       const c = Math.max(0, Math.min(this.site.cols - 1, colOf(this.site, this.cursor) + moves[k][0]));
       const r = Math.max(0, Math.min(this.site.rows - 1, rowOf(this.site, this.cursor) + moves[k][1]));
       this.cursor = r * this.site.cols + c;

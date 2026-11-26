@@ -603,6 +603,7 @@ window.__ff = {
     return { moves: res.moves.length, energyLeft: dig.site.energy, found: dig.site.bones.filter((b) => b.found).length, cracked: dig.site.bones.filter((b) => b.cracked).length };
   },
   rebuildState: () => rebuildView.state,
+  rebuildGeom: () => ({ ox: rebuildView.ox, oy: rebuildView.oy, scale: rebuildView.scale }),
   dropAllPieces() {
     for (const p of [...rebuildView.state.pieces]) {
       if (p.placed) continue;
