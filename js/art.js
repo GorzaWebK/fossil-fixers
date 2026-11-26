@@ -86,14 +86,20 @@ export function drawRockCell(ctx, x, y, s, rock, rnd, damage01) {
 
 /** Raised nodules and pale flecks: the "bump" clue. In colourblind mode a clear + shape is added. */
 export function drawBump(ctx, x, y, s, rnd, colourblind) {
+  // a warm colour change across the square...
+  ctx.fillStyle = 'rgba(214,150,70,0.22)';
+  ctx.fillRect(x + 1, y + 1, s - 2, s - 2);
+  // ...and raised nodules with a pencil edge, visible on pale and dark rock alike
   for (let k = 0; k < 3; k++) {
     const cx = x + s * (0.25 + rnd() * 0.5);
     const cy = y + s * (0.25 + rnd() * 0.5);
-    const r = s * (0.07 + rnd() * 0.05);
-    ctx.fillStyle = 'rgba(0,0,0,0.25)';
-    ctx.beginPath(); ctx.arc(cx + r * 0.35, cy + r * 0.4, r, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = 'rgba(255,250,235,0.75)';
-    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+    const r = s * (0.08 + rnd() * 0.05);
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.beginPath(); ctx.arc(cx + r * 0.4, cy + r * 0.45, r, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = 'rgba(255,248,228,0.9)';
+    ctx.strokeStyle = 'rgba(29,43,74,0.55)';
+    ctx.lineWidth = Math.max(1, s / 40);
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
   }
   if (colourblind) {
     const cx = x + s * 0.78, cy = y + s * 0.22, r = s * 0.13;

@@ -602,6 +602,7 @@ window.__ff = {
     }
     return { moves: res.moves.length, energyLeft: dig.site.energy, found: dig.site.bones.filter((b) => b.found).length, cracked: dig.site.bones.filter((b) => b.cracked).length };
   },
+  redraw: () => { digView.layerDirty = true; digView.updateHud(); },
   rebuildState: () => rebuildView.state,
   rebuildGeom: () => ({ ox: rebuildView.ox, oy: rebuildView.oy, scale: rebuildView.scale }),
   dropAllPieces() {
